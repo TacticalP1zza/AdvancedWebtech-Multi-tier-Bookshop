@@ -1,0 +1,184 @@
+*{
+    padding: 0;
+    margin: 0;
+    background-repeat: no-repeat;
+    list-style: none;
+    text-decoration: none;
+    color: #FFCD00;
+    box-sizing: border-box;
+
+    }
+nav{
+    display: flex;
+    flex-direction: row;
+    justify-self: center;
+    justify-content: center;
+    position: sticky;
+    width: 100%;
+    top: 0;
+    white-space: nowrap;
+    text-align: center;
+    background-color: #0057AD;
+    padding-bottom: 10px;
+}
+
+.nav li{
+    display: inline-block;
+    padding-right: 10px;
+    font-size: 35px;
+    font-family: "Roboto Slab", serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    padding-top: 20px;
+    background-color: #0057AD;
+    color: #FFCD00;
+    
+}
+.nav ul{background-color: #0057AD}
+header {
+    display: flex;
+    justify-content: space-between; /* Aligns children to the beginning and end of the container */
+    background-color: #0057AD;
+    padding: 10px; /* Add padding for spacing */
+}
+
+.mew {
+    width: 200px; /* Adjust the width of the images as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.logo {
+    margin: auto 38% auto 0; /* This centers the logo horizontally and vertically */
+    display: block; /* Ensures the image is displayed as a block element */
+    position: relative;
+    width: 400px; /* Adjust the width of the images as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+.dropdowns{
+    padding: 2.5em;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+.dropdown{
+    position: relative;
+    min-width: 15em;
+    margin: 2em;
+}
+.select{
+    background-color: #0057AD;
+    color: #FFCD00;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px #0057AD solid;
+    border-radius: 0.5em;
+    padding: 1em;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.select-clicked{
+    border: 2px #26489a solid;
+    box-shadow: 0 0 0.8em #26489a;
+}
+.select:hover{
+    background: #0057AD;
+}
+
+.arrow{
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #f5f5ff;
+    transition: 0.3s;}
+.arrow-rotate{
+ transform: rotate(180deg);
+}
+
+
+.menu{
+padding: 0.2rem 0.5rem;
+background-color: #0057AD;
+border: 1px #26489a solid;
+box-shadow: 0 0.5em 1em rgba(0, 0, 0, 1);
+border-radius: 0.5em;
+color: #FFCD00;
+position: absolute;
+top: 3em;
+left: 50%;
+width: 100%;
+transform: translate(-50%);
+opacity: 0;
+display: none;
+transition: 0.2s;
+z-index: 1;
+}
+
+
+.menu li{
+    padding: 0.7em 0.5em;
+    margin: 0.3em 0;
+    border-radius: 0.5em;
+    cursor: pointer;
+}
+.menu li:hover{
+    background: #26489a;
+}
+.active{
+    background: #26489a;
+    
+}
+.menu-open{
+    display: block;
+    opacity: 1;
+}
+
+.table {
+    margin: 0 auto; 
+    padding: 5px; /* Add padding to the table */
+}
+
+.table tr {
+    background-color: #0057AD;
+    align-items: center;
+    justify-content: center;
+}
+
+.table td {
+    background-color: #0057AD;
+    padding: 10px; /* Add padding to table cells */
+}
+
+.table table {
+    background-color: #0057AD;
+}
+.search {
+    margin-top: 0.7em;
+    text-align: center;
+    height: 43px; /* Adjust height as needed */
+    border-radius: 0.5em;
+}
+
+.search input {
+    padding: 0.5em;
+    margin-top: -4em;
+    margin-right: 0.5em;
+    border-color:#0057AD ;
+}
+
+.search button {
+    padding: 0.5em 1em;
+    background-color: #0057AD;
+    border: none;
+    color: #FFCD00;
+    cursor: pointer;
+}
+
+.search button:hover {
+    background-color: #26489a;
+}
+
+
