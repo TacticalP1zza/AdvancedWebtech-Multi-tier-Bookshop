@@ -1,0 +1,1 @@
+Declare and check user names convertions like camel case etc
