@@ -1,1 +1,8 @@
 Declare and check user names convertions like camel case etc
+
+for registration we do not tell the user if email already exists as this likely would break GDPR in leaking someones email. maybe need research this accounts is already registration
+
+
+
+add this account is alredy registered with email
+find online resource for login in and safety standards for reference

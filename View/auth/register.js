@@ -2,6 +2,7 @@
 / fix error, check all naming follow naming guidelines, add invis uninvis button to password /peak feautre
 / make states only update when unselecting boxes
 /confirm email should only update after typeing its it box same with confirm password
+/add sanity elements htmlentites
 */
 
 
@@ -55,7 +56,7 @@ class RegistrationForm extends React.Component{
         if (!/^[0-9]+$/.test(value)){
             return "Phone Number Must contain numbers only";
         }
-        if (value.length !==10){
+        if (value.length !==11){
             return "Phone number must be exactly 10 digits";
         }
         return "";
@@ -154,7 +155,7 @@ class RegistrationForm extends React.Component{
             return;
         }
 
-        fetch("index.php?checkUserName=" + encodeURIComponent(this.state.userName))
+        fetch("index.php?checkUserName&userName=" + encodeURIComponent(this.state.userName))
         .then(response => response.json())
         .then(data =>{
             if (data.exists){
