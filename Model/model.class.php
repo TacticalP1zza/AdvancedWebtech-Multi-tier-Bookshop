@@ -30,6 +30,10 @@ class Model
     }
 
     public function getUserByUserName($userName)
+
+    $sql = "SELECT * FROM customersAccounts WHERE userName = :userName LIMIT 1 ";
+    $stmt = $this ->db->prepare($sql);
+    $stmt-> bindParam('')
     
 
 

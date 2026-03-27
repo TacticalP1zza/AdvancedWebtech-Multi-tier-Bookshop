@@ -93,7 +93,7 @@ class Controller
                 exit;
             }
 
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
             
             $success = $this->model->insertUser($userName, $phone, $email, $hashedPassword);
@@ -112,42 +112,53 @@ class Controller
             exit;
         }
 
-
+        //Change to email inline with coursework? or add both intergration using regex
         public function loginSubmit(){
             if($_SERVER['REQUEST_METHOD'] !== 'POST'){
                 header("Location: index.php?action=login");
                 exit;
             }
     
-                $userName = trim($_POST['userName'] ?? '');
-                $password = trim($_POST['password'] ?? '');
-                $errors = [];
+            $userName = trim($_POST['userName'] ?? '');
+            $password = trim($_POST['password'] ?? '');
+            $errors = [];
     
-                if($userName === '' || !preg_match('/^[A-Za-z\s]+$/', $userName)){
-                    $errors[] = "Invalid Username";
+            if($userName === '' || !preg_match('/^[A-Za-z\s]+$/', $userName)){
+                $errors[] = "Invalid Username";
+            }
+            if($password === ''){
+                $errors[] = "Passwords is Required";
+            }
+            if(!empty($errors)) {
+                $_SESSION['login_errors'] = $errors;
+                header("location: index.php?action=login");
+                exit;
                 }
-                if($password === ''){
-                    $errors[] = "Passwords is Required";
+
+            $user = $this->model->getUserByUserName($userName);
+            if(!$user){
+                $_SESSION['login_errors'] = ["Username not Found"];
+                header("Location: index.php?action=login");
+                exit;
                 }
-                if(!empty($errors)) {
-                    $_SESSION['login_errors'] = $errors;
-                    header("location: index.php?action=login");
-                    exit;
-                }
-    
-                $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    
-                
-                $success = $this->model->insertUser($userName, $hashedPassword);
-                
-               
-    
-                $_SESSION['userName'] = $userName;
-                $_SESSION['email'] = $email;
+
+            if(password_verify($password, $user['password'])){
+                session_regenerate_id(true);
+                $_SESSION['userName'] = $user['userName'];
+                $_SESSION['email'] = $user['email'];
                 $_SESSION['loggedIn'] = True;
-    
                 header("Location: index.php?action=home");
                 exit;
+            }else{
+                $_SESSION['login_errors'] = ["Incorrect password"];
+                header("Location: index.php?action=login");
+                exit;
+             }
+
+    
+            $_SESSION['login_errors'] = ["Edge Case Detected: Please Report Bug"];
+            header("Location: index.php?action=login");
+            exit;
             }
     
     }
