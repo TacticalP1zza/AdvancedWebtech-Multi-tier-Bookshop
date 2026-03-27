@@ -36,8 +36,7 @@ class RegistrationForm extends React.Component{
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.checkUserNameAvailability = this.checkUserNameAvailability.bind(this);
-
-}
+    }
 
     validateUserName(value){
         if(value.trim()=== "") {
@@ -214,8 +213,8 @@ class RegistrationForm extends React.Component{
                     type = "text"
                     name = "userName"
                     value ={this.state.userName}
-                    onBlur ={this.handleChange}
-                    //onBlur = {this.checkUserNameAvailability}
+                    onChange ={this.handleChange}
+                   
                 />
                 <div style={{color:"red"}}>{this.state.userNameError}</div>
                 </div>
@@ -226,7 +225,7 @@ class RegistrationForm extends React.Component{
                     type = "text"
                     name = "phone"
                     value ={this.state.phone}
-                    onBlur ={this.handleChange}
+                    onChange ={this.handleChange}
                 />
                 <div style={{color:"red"}}>{this.state.phoneErorr}</div>
                 </div>
@@ -237,7 +236,7 @@ class RegistrationForm extends React.Component{
                     type = "text"
                     name = "email"
                     value ={this.state.email}
-                    onBlur ={this.handleChange}
+                    onChange ={this.handleChange}
                 />
                 <div style={{color:"red"}}>{this.state.emailErorr}</div>
                 </div>
@@ -248,7 +247,7 @@ class RegistrationForm extends React.Component{
                     type = "text"
                     name = "confirmEmail"
                     value ={this.state.confirmEmail}
-                    onBlur ={this.handleChange}
+                    onChange ={this.handleChange}
                 />
                 <div style={{color:"red"}}>{this.state.confirmEmailError}</div>
                 </div>
@@ -259,7 +258,7 @@ class RegistrationForm extends React.Component{
                     type = "password"
                     name = "password"
                     value ={this.state.password}
-                    onBlur ={this.handleChange}
+                    onChange ={this.handleChange}
                 />
                 <div style={{color:"red"}}>{this.state.passwordErorr}</div>
                 </div>
@@ -270,7 +269,7 @@ class RegistrationForm extends React.Component{
                     type = "password"
                     name = "confirmPassword"
                     value ={this.state.confirmPassword}
-                    onBlur ={this.handleChange}
+                    onChange ={this.handleChange}
                 />
                 <div style={{color:"red"}}>{this.state.confirmPasswordError}</div>
                 </div>
@@ -282,8 +281,8 @@ class RegistrationForm extends React.Component{
         );
     }
    
+}
 
-    }
 
 ReactDOM.render(
         <RegistrationForm />, document.getElementById("register-root")

@@ -93,14 +93,11 @@ class Controller
                 exit;
             }
 
-            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
             
             $success = $this->model->insertUser($userName, $phone, $email, $hashedPassword);
-
-            print_r($_POST);
-            var_dump($success);
-            exit;
+ 
             
            
 
@@ -119,12 +116,12 @@ class Controller
                 exit;
             }
     
-            $userName = trim($_POST['userName'] ?? '');
+            $email = trim($_POST['userName'] ?? '');
             $password = trim($_POST['password'] ?? '');
             $errors = [];
     
-            if($userName === '' || !preg_match('/^[A-Za-z\s]+$/', $userName)){
-                $errors[] = "Invalid Username";
+            if($userName === '' || !preg_match('/^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/', $email)){
+                $errors[] = "Invalid email";
             }
             if($password === ''){
                 $errors[] = "Passwords is Required";
@@ -135,17 +132,20 @@ class Controller
                 exit;
                 }
 
-            $user = $this->model->getUserByUserName($userName);
+            $user = $this->model->getUserByEmail($emai);
             if(!$user){
-                $_SESSION['login_errors'] = ["Username not Found"];
+                $_SESSION['login_errors'] = ["Email not Found"];
                 header("Location: index.php?action=login");
                 exit;
                 }
 
             if(password_verify($password, $user['password'])){
                 session_regenerate_id(true);
+                $_SESSION['id'] = $user['id'];
                 $_SESSION['userName'] = $user['userName'];
                 $_SESSION['email'] = $user['email'];
+                $_SESSION['phone'] = $user['phone'];
+                $_SESSION['admin'] = $user['admin'];
                 $_SESSION['loggedIn'] = True;
                 header("Location: index.php?action=home");
                 exit;
@@ -161,4 +161,5 @@ class Controller
             exit;
             }
     
-    }
+}
+

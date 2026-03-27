@@ -1,0 +1,16 @@
+CREATE TABLE Accounts (
+
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    userName VARCHAR(50) NOT NULL,
+
+    phone VARCHAR(10) NOT NULL,
+
+    email VARCHAR(255) NOT NULL UNIQUE,
+
+    password VARCHAR(255) NOT NULL,
+
+    admin BOOLEAN DEFAULT FALSE
+
+
+);
