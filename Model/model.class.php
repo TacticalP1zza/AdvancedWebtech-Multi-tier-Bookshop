@@ -29,4 +29,8 @@ class Model
 
     }
 
+    public function getUserByUserName($userName)
+    
+
+
 }

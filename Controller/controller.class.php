@@ -111,5 +111,43 @@ class Controller
             header("Location: index.php?action=home");
             exit;
         }
+
+
+        public function loginSubmit(){
+            if($_SERVER['REQUEST_METHOD'] !== 'POST'){
+                header("Location: index.php?action=login");
+                exit;
+            }
+    
+                $userName = trim($_POST['userName'] ?? '');
+                $password = trim($_POST['password'] ?? '');
+                $errors = [];
+    
+                if($userName === '' || !preg_match('/^[A-Za-z\s]+$/', $userName)){
+                    $errors[] = "Invalid Username";
+                }
+                if($password === ''){
+                    $errors[] = "Passwords is Required";
+                }
+                if(!empty($errors)) {
+                    $_SESSION['login_errors'] = $errors;
+                    header("location: index.php?action=login");
+                    exit;
+                }
+    
+                $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    
+                
+                $success = $this->model->insertUser($userName, $hashedPassword);
+                
+               
+    
+                $_SESSION['userName'] = $userName;
+                $_SESSION['email'] = $email;
+                $_SESSION['loggedIn'] = True;
+    
+                header("Location: index.php?action=home");
+                exit;
+            }
     
     }

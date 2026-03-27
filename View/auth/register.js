@@ -3,6 +3,7 @@
 / make states only update when unselecting boxes
 /confirm email should only update after typeing its it box same with confirm password
 /add sanity elements htmlentites
+/change to onBlur only send when loseing focus
 */
 
 
@@ -213,8 +214,8 @@ class RegistrationForm extends React.Component{
                     type = "text"
                     name = "userName"
                     value ={this.state.userName}
-                    onChange ={this.handleChange}
-                    onBlur = {this.checkUserNameAvailability}
+                    onBlur ={this.handleChange}
+                    //onBlur = {this.checkUserNameAvailability}
                 />
                 <div style={{color:"red"}}>{this.state.userNameError}</div>
                 </div>
@@ -225,7 +226,7 @@ class RegistrationForm extends React.Component{
                     type = "text"
                     name = "phone"
                     value ={this.state.phone}
-                    onChange ={this.handleChange}
+                    onBlur ={this.handleChange}
                 />
                 <div style={{color:"red"}}>{this.state.phoneErorr}</div>
                 </div>
@@ -236,7 +237,7 @@ class RegistrationForm extends React.Component{
                     type = "text"
                     name = "email"
                     value ={this.state.email}
-                    onChange ={this.handleChange}
+                    onBlur ={this.handleChange}
                 />
                 <div style={{color:"red"}}>{this.state.emailErorr}</div>
                 </div>
@@ -247,7 +248,7 @@ class RegistrationForm extends React.Component{
                     type = "text"
                     name = "confirmEmail"
                     value ={this.state.confirmEmail}
-                    onChange ={this.handleChange}
+                    onBlur ={this.handleChange}
                 />
                 <div style={{color:"red"}}>{this.state.confirmEmailError}</div>
                 </div>
@@ -258,7 +259,7 @@ class RegistrationForm extends React.Component{
                     type = "password"
                     name = "password"
                     value ={this.state.password}
-                    onChange ={this.handleChange}
+                    onBlur ={this.handleChange}
                 />
                 <div style={{color:"red"}}>{this.state.passwordErorr}</div>
                 </div>
@@ -269,7 +270,7 @@ class RegistrationForm extends React.Component{
                     type = "password"
                     name = "confirmPassword"
                     value ={this.state.confirmPassword}
-                    onChange ={this.handleChange}
+                    onBlur ={this.handleChange}
                 />
                 <div style={{color:"red"}}>{this.state.confirmPasswordError}</div>
                 </div>

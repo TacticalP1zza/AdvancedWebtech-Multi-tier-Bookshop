@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
 
 <footer>
+<link rel="stylesheet" href="public/CSS/footer.css">
 <ul>
 <li>made by x7x92</li>
 </ul>
 </footer>
+</body>
 </html>

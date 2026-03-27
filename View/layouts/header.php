@@ -6,6 +6,7 @@
     <title>NavBar-Header</title>
     <link rel="stylesheet" href="public/CSS/header.css">
 </head>
+<body>
 <header>
 <nav class="nav">
 <ul>
@@ -15,4 +16,3 @@
 <li><a href="index.php?action=login">Login</a></li>
 </ul></nav>
 </header>
-</html>

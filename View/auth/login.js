@@ -1,24 +1,30 @@
-class Login extends React.Component{
+/*
+/ fix error, check all naming follow naming guidelines, add invis uninvis button to password /peak feautre
+/ make states only update when unselecting boxes
+/confirm email should only update after typeing its it box same with confirm password
+/add sanity elements htmlentites
+*/
+
+
+class LoginForm extends React.Component{
     constructor(props){
         super(props)
 
 
     this.state ={
         userName: "",
-        email: "",
         password: "",
 
-
         userNameError: "",
-        emailErorr: "",
         passwordErorr: "",
-        formMessage:""
 
+        formMessage:""
 
     };
     
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+
 
 }
 
@@ -32,31 +38,53 @@ class Login extends React.Component{
         return "";
     }
 
-    validate
+
+    // https://ihateregex.io/expr/password/
+    //Minimum eight characters, at least one upper case English letter, one lower case English letter, one number and one special character
+    validatePassword(value){
+        if(value.trim()=== "") {
+            return "Password is Required";
+        }
+        if (!/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/.test(value)){
+            return "Must contain a minimum of eight characters, at least one upper case English letter, one lower case English letter, one number and one special character";
+        }
+        return "";
+    }
 
     handleChange(event){
-        const userName = event.target.userName;
+        const name = event.target.name;
         const value = event.target.value;
 
-        this.setState({
-            [userName]: value
-        });
-
-        if(userName === "userName"){
-            this.setState({userNameError: this.validateUserName(value)})
+        this.setState({[name]: value}, () => {
+        if( name === "userName"){
+            this.setState({
+               userNameError: this.validateUserName(value),
+            });
         }
+      
+        if( name === "password"){
+            this.setState({
+               passwordErorr: this.validatePassword(value),
+            });
+        }
+    });
     }
+
 
     handleSubmit(event){
         const userNameError = this.validateUserName(this.state.userName);
-
+        const passwordErorr= this.validatePassword(this.state.password);
+        
         this.setState({
-            userNameError: userNameError
-        });
+           userNameError: userNameError,
+           passwordErorr: passwordErorr
+        })
+
 
         if(
-            userNameError !==""
-        ){
+            userNameError !=="" ||
+            passwordErorr !==""
+            ){
             event.preventDefault();
             this.setState({formMessage: "please fix the errors before registering"})
         }
@@ -65,21 +93,32 @@ class Login extends React.Component{
 
     render(){
         return(
-            <div className ="registeration-container">
-            <form method="POST" action="index.php?action=registerSubmit" onSubmit={this.handleSubmit}>
+            <div className ="Login-container">
+            <form method="POST" action="index.php?action=loginSubmit" onSubmit={this.handleSubmit}>
 
                 <div className ="form-group">
-                <label>Username</label>
+                <label>Username</label><br />
                 <input
                     type = "text"
-                    userName = "userName"
+                    name = "userName"
                     value ={this.state.userName}
                     onChange ={this.handleChange}
                 />
                 <div style={{color:"red"}}>{this.state.userNameError}</div>
                 </div>
 
-                <button type="submit">Register</button>
+                <div className ="form-group">
+                <label>password</label><br />
+                <input
+                    type = "password"
+                    name = "password"
+                    value ={this.state.password}
+                    onChange ={this.handleChange}
+                />
+                <div style={{color:"red"}}>{this.state.passwordErorr}</div>
+                </div>
+
+                <button type="submit">Login</button>
                 <div style={{color:"red"}}>{this.state.formMessage}</div>
             </form>
             </div>
@@ -90,5 +129,5 @@ class Login extends React.Component{
     }
 
 ReactDOM.render(
-        <RegistrationForm />, document.getElementById("register-root")
+        <LoginForm />, document.getElementById("login-root")
         )
