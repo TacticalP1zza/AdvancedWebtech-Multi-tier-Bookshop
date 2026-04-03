@@ -1,16 +1,10 @@
 <?php
-
+require_once __DIR__ . "/env-loader.php";
 function getConnection() {
-    //put variables in git ignore file and seperate file
-   /* $servername = "localhost";
-    $username = "x7x92";
-    $password = "x7x92x7x92";
-    $dbname = "x7x92"; */
-
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "bookstore_db";
+    $servername = getenv('DB_HOST');
+    $username = getenv('DB_USERNAME');
+    $password = getenv('DB_PASSWORD');
+    $dbname = getenv('DB_NAME');
 
     $connection = mysqli_connect($servername, $username, $password, $dbname);
 
