@@ -1,0 +1,138 @@
+:root{
+    --color-background: #f0f0f0;
+    --color-text: black;
+    --color-border: #ccc;
+    --color-border-onFocus:blue;
+    --color-placeholder: #999;
+    --color-primary: #007bff;
+    --color-primary-hover: #0056b3;
+    --color-error: #dc3545;
+    --color-link: #007bff;
+    --color-link-hover: #0056b3;
+    --font-family: 'sans-serif';
+    --color-social-hover: "#e0e0e0";
+    --color-floating-label: #666;
+    --color-white : #fff;
+
+}
+
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family);
+}
+body{
+    background-color: var(--color-background);
+    color: var(--color-text);
+}
+
+.container{
+    background-color: var(--color-background);
+    color: var(--color-text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    border-radius: 6px;
+}
+
+.Login-container, .registeration-container
+{
+    position: relative;
+    background-color: var(--color-white);
+    padding: 50px 46px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 12px solid var(--color-border);
+    overflow: hidden;
+}
+.form-group {
+    position: relative;
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.input-field {
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+    width: 100%;
+    outline: none;
+}
+
+.floating-label {
+    position: absolute;
+    top: 50%;
+    left: 8px;
+    transform: translateY(-50%);
+    color: var(--color-placeholder);
+    background-color: var(--color-white);
+    pointer-events: none;
+    transition: all 0.3s ease;
+    padding-inline: 6px;
+    pointer-events: none;
+}
+
+.input-field:focus ~ .floating-label, 
+.input-field:not(:placeholder-shown) ~ .floating-label{
+    top: 0;
+    left: 8px;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color : var(--color-link-hover);
+
+}
+
+
+
+.input-field:focus{
+    border-color: var(--color-primary-hover);
+    transition: all 0.3 ease;
+
+}
+
+.input-field:not(:focus):not(:placeholder-shown) ~ .floating-label{
+    color: var(--color-placeholder);
+}
+
+.Form-Button{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    height: 46px;
+    background: none;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    padding-inline: 3px;
+    color: var(--color-border);
+}
+.Form-Button
+
+{
+    color: var(--color-white);
+    background-color: var(--color-primary-hover);
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color .3 ease;
+
+}
+
+.Form-Button:hover{
+    background-color: green;
+}
+
+.Error-Message{
+    padding-bottom: 10px;
+}
+
+.header{
+    padding-bottom: 10px;
+}
