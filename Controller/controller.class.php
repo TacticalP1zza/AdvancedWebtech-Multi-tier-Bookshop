@@ -132,7 +132,7 @@ class Controller
                 exit;
                 }
 
-            $user = $this->model->getUserByEmail($emai);
+            $user = $this->model->getUserByEmail($email);
             if(!$user){
                 $_SESSION['login_errors'] = ["Email not Found"];
                 header("Location: index.php?action=login");

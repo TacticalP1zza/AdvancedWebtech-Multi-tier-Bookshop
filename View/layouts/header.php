@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NavBar-Header</title>
     <link rel="stylesheet" href="public/CSS/header.css">
-<script src="/Dependencies/node_modules/react/umd/react.development.js"></script>
-<script src="/Dependencies/node_modules/react-dom/umd/react-dom.development.js"></script>
-<script src="/Dependencies/node_modules/@babel/standalone/babel.min.js"></script>
+<script src="/AdvancedWebtech-Multi-tier-Bookshop/Dependencies/node_modules/react/umd/react.development.js"></script>
+<script src="/AdvancedWebtech-Multi-tier-Bookshop/Dependencies/node_modules/react-dom/umd/react-dom.development.js"></script>
+<script src="/AdvancedWebtech-Multi-tier-Bookshop/Dependencies/node_modules/@babel/standalone/babel.min.js"></script>
 </head>
 <body>
 <header>
