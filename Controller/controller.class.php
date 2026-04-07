@@ -11,7 +11,9 @@ class Controller
 
     public function home()
     {
-        return "Pages/home";
+        return 'Pages/home';
+   
+
     }
 
     public function login()
@@ -120,7 +122,7 @@ class Controller
             $password = trim($_POST['password'] ?? '');
             $errors = [];
     
-            if($userName === '' || !preg_match('/^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/', $email)){
+            if($email === '' || !preg_match('/^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/', $email)){
                 $errors[] = "Invalid email";
             }
             if($password === ''){
@@ -160,6 +162,15 @@ class Controller
             header("Location: index.php?action=login");
             exit;
             }
+
+            public function getBooksAjax()
+            {
+            header('Content-Type: application/json');
+            $books = $this->model->getBooks();
+            echo json_encode($books);
+            exit;
+            }
+
     
 }
 

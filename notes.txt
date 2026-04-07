@@ -21,3 +21,5 @@ render componetents without babel to improve lighthouse score
 
 
 IMPORTANT BUILD JSX LOCALLY ON LAPTOP THEN UPLOAD FOR BETTER LIGHTHOUSE score
+
+Purpose of assingment is to teach use old XML http request rather than new modern version

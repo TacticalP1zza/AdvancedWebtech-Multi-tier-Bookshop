@@ -14,7 +14,7 @@
 <nav class="nav">
 <ul>
 <li><a href="index.php?action=home">Bibliotheca</a></li>
-<li>Shop</li>
+<li><a href="index.php?action=shopping">Shopping Carts<span class="badge badge-danger">0</span></a></li>
 <li><a href="index.php?action=register">Register</a></li>
 <li><a href="index.php?action=login">Login</a></li>
 </ul></nav>

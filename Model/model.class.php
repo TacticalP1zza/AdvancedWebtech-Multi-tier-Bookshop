@@ -58,4 +58,17 @@ class Model
         }
     
 }
+    public function getBooks(){
+
+        $sql = "SELECT * FROM products";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $books = [];
+
+        while($row = $result->fetch_assoc()){
+            $books[] = $row;
+        }
+        return $books;
+    }
 }
