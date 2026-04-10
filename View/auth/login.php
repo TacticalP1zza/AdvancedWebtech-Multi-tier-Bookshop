@@ -6,4 +6,4 @@
 
 <link rel="stylesheet" href="View/auth/auth.css">
 <div id = "login-root"></div>
-<script type="text/babel" src="View/auth/login.js?v=1.3></script>
+<script type="text/babel" src="View/auth/login.js?v=4></script>

@@ -118,11 +118,12 @@ class Controller
                 exit;
             }
     
-            $email = trim($_POST['userName'] ?? '');
+            $email = trim($_POST['email'] ?? '');
             $password = trim($_POST['password'] ?? '');
             $errors = [];
-    
-            if($email === '' || !preg_match('/^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/', $email)){
+            //https://www.w3schools.com/php/func_filter_var.asp
+            $email = filter_var($email, FILTER_SANTIZE_EMAIL);
+            if($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)){
                 $errors[] = "Invalid email";
             }
             if($password === ''){
@@ -143,8 +144,8 @@ class Controller
 
             if(password_verify($password, $user['password'])){
                 session_regenerate_id(true);
-                $_SESSION['id'] = $user['id'];
-                $_SESSION['userName'] = $user['userName'];
+                $_SESSION['id'] = session_id();
+                $_SESSION['userName'] = $user['username'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['phone'] = $user['phone'];
                 $_SESSION['admin'] = $user['admin'];
@@ -163,13 +164,20 @@ class Controller
             exit;
             }
 
-            public function getBooksAjax()
-            {
-            header('Content-Type: application/json');
-            $books = $this->model->getBooks();
-            echo json_encode($books);
+        public function logout(){
+            $_SESSION = [];
+            session_destroy();
+            header("Location: index.php?action=login");
             exit;
-            }
+        }
+
+        public function getBooksAjax()
+        {
+        header('Content-Type: application/json');
+        $books = $this->model->getBooks();
+        echo json_encode($books);
+        exit;
+        }
 
     
 }

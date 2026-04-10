@@ -23,6 +23,22 @@
     padding: 0;
     font-family: var(--font-family);
 }
+
+/*Remove autostyling from google password manger to remove visual bug*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px var(--color-white) inset !important;
+    -webkit-text-fill-color: var(--color-text) !important;
+    caret-color: var(--color-text);
+    border: 1px solid var(--color-border) !important;
+    transition: background-color 9999s ease-in-out 0s;
+}
+
+
+
+
 body{
     background-color: var(--color-background);
     color: var(--color-text);
@@ -56,35 +72,38 @@ body{
 }
 
 .input-field {
-    padding: 10px;
+    width: 100%;
+    padding: 20px 10px 10px 10px;
     border: 1px solid var(--color-border);
     border-radius: 6px;
     font-size: 16px;
-    transition: border-color 0.3s;
-    width: 100%;
     outline: none;
+    background: var(--color-white);
+    color: var(--color-text);
 }
 
 .floating-label {
     position: absolute;
     top: 50%;
-    left: 8px;
+    left: 10px;
     transform: translateY(-50%);
     color: var(--color-placeholder);
-    background-color: var(--color-white);
+    background-color: transparent;
+    padding: 0;
     pointer-events: none;
-    transition: all 0.3s ease;
-    padding-inline: 6px;
-    pointer-events: none;
+    transition: all 0.2s ease;
+    font-size: 16px;
+    line-height: 1;
 }
 
 .input-field:focus ~ .floating-label, 
-.input-field:not(:placeholder-shown) ~ .floating-label{
+.input-field:not(:placeholder-shown) ~ .floating-label, .input-field:-webkit-autofill ~ .floating-label{
     top: 0;
-    left: 8px;
     transform: translateY(-50%);
-    font-size: 16px;
-    color : var(--color-link-hover);
+    font-size: 12px;
+    color: var(--color-link-hover);
+    background-color: var(--color-white);
+    padding: 0 4px;
 
 }
 

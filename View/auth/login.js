@@ -13,10 +13,10 @@ class LoginForm extends React.Component{
 
 
     this.state ={
-        userName: "",
+        email: "",
         password: "",
 
-        userNameError: "",
+        emailError: "",
         passwordErorr: "",
 
         formMessage:""
@@ -29,12 +29,12 @@ class LoginForm extends React.Component{
 
 }
 
-    validateUserName(value){
+    validateEmail(value){
         if(value.trim()=== "") {
-            return "Username empty";
+            return "email empty";
         }
-        if (!/^[A-Za-z\s]+$/.test(value)){
-            return "Username Must contain Letters only";
+        if (!/^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)){
+            return "email Must contain Letters only";
         }
         return "";
     }
@@ -57,9 +57,9 @@ class LoginForm extends React.Component{
         const value = event.target.value;
 
         this.setState({[name]: value}, () => {
-        if( name === "userName"){
+        if( name === "email"){
             this.setState({
-               userNameError: this.validateUserName(value),
+               emailError: this.validateEmail(value),
             });
         }
       
@@ -73,17 +73,17 @@ class LoginForm extends React.Component{
 
 
     handleSubmit(event){
-        const userNameError = this.validateUserName(this.state.userName);
+        const emailError = this.validateEmail(this.state.email);
         const passwordErorr= this.validatePassword(this.state.password);
         
         this.setState({
-           userNameError: userNameError,
+           emailError: emailError,
            passwordErorr: passwordErorr
         })
 
 
         if(
-            userNameError !=="" ||
+            emailError !=="" ||
             passwordErorr !==""
             ){
             event.preventDefault();
@@ -102,19 +102,21 @@ class LoginForm extends React.Component{
                 <div className ="form-group">
                 <input className="input-field"
                     type = "text"
-                    name = "userName"
-                    value ={this.state.userName}
+                    name = "Email"
+                    autoComplete="email"
+                    value ={this.state.email}
                     onChange ={this.handleChange}
                     placeholder = "" required></input>
                     <label className="floating-label">Email</label>
                 </div>
-                <div  className = "Error-Message" style={{color:"red"}}>{this.state.userNameError}</div>
+                <div  className = "Error-Message" style={{color:"red"}}>{this.state.emailError}</div>
 
                 <div className ="form-group">
     
                 <input className="input-field"
                     type = "password"
                     name = "password"
+                    autoComplete="current-password"
                     value ={this.state.password}
                     onChange ={this.handleChange}
                     placeholder ="" required
