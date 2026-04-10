@@ -61,14 +61,18 @@ class Controller
 
             $errors = [];
 
-            if($userName === '' || !preg_match('/^[A-Za-z\s]+$/', $userName)){
+            if($userName === '' || !preg_match('/^[A-Za-z0-9_ ]{3,30}$/', $userName)){
                 $errors[] = "Invalid Username";
             }
 
-            if($phone === '' || !preg_match('/^[0-9]{11}$/', $phone)){
+            if($phone === '' || !preg_match('/^[0-9]{10}$/', $phone)){
                 $errors[] = "Invalid Phone";
             }
-
+            //https://www.w3schools.com/php/func_filter_var.asp
+            $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+            if($this->model->emailExists($email)){
+                $errors[] = "Email address already exists";
+            }
             if($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)){
                 $errors[] = "Invalid email address";
             }
@@ -96,18 +100,9 @@ class Controller
             }
 
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-            
             $success = $this->model->insertUser($userName, $phone, $email, $hashedPassword);
- 
-            
-           
-
-            $_SESSION['userName'] = $userName;
-            $_SESSION['email'] = $email;
-            $_SESSION['loggedIn'] = True;
-
-            header("Location: index.php?action=home");
+            $_SESSION["register_succes"] = "Registration Succesful. Please Log in."
+            header("Location: index.php?action=login");
             exit;
         }
 
@@ -122,7 +117,7 @@ class Controller
             $password = trim($_POST['password'] ?? '');
             $errors = [];
             //https://www.w3schools.com/php/func_filter_var.asp
-            $email = filter_var($email, FILTER_SANTIZE_EMAIL);
+            $email = filter_var($email, FILTER_SANITIZE_EMAIL);
             if($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)){
                 $errors[] = "Invalid email";
             }
@@ -145,7 +140,7 @@ class Controller
             if(password_verify($password, $user['password'])){
                 session_regenerate_id(true);
                 $_SESSION['id'] = session_id();
-                $_SESSION['userName'] = $user['username'];
+                $_SESSION['username'] = $user['userName'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['phone'] = $user['phone'];
                 $_SESSION['admin'] = $user['admin'];

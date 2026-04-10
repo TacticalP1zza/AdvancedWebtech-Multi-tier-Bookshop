@@ -17,49 +17,59 @@ class Model
         $stmt->bind_param("s", $userName);
         $stmt->execute();
         $result = $stmt->get_result();
+        $exists = $result->num_rows > 0;
+        $stmt->close();
+        return $exists;
+    }
 
-        return $result->num_rows > 0;
+    public function emailExists($email){
+        $sql = "SELECT id FROM Accounts WHERE email = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $exists = $result->num_rows > 0;
+        $stmt->close();
+        return $exists;
     }
 
     public function insertUser($userName, $phone, $email, $hashedPassword){
-
         $sql = "INSERT INTO Accounts (userName, phone, email, password) VALUES (?,?,?,?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ssss", $userName, $phone, $email, $hashedPassword);
         return $stmt->execute();
-
     }
 
-   public function getUserByEmail($email){
+    public function getUserByEmail($email){
 
-    $sql = "SELECT * FROM Accounts WHERE email = ? email LIMIT 1 ";
-    $stmt = $this ->conn->prepare($sql);
-    $stmt->bind_Param('s', $email);
-    $stmt->execute();
-    $stmt->bind_result($id,$dbUserName,$phone,$email,$password, $admin);
+        $sql = "SELECT id, userName, phone, email, password, admin FROM Accounts WHERE email = ? LIMIT 1";
+        $stmt = $this ->conn->prepare($sql);
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+        $stmt->bind_result($id,$dbUserName,$phone,$email,$password, $admin);
 
-    if($stmt->fetch()){
+        if($stmt->fetch()){
 
-        $user = [
-            "id" => $id,
-            "userName" => $dbUserName,
-            "phone" => $phone,
-            "email" => $email, 
-            "password" => $password,
-            "admin" => $admin
-        ];  
+            $user = [
+                "id" => $id,
+                "userName" => $dbUserName,
+                "phone" => $phone,
+                "email" => $email, 
+                "password" => $password,
+                "admin" => $admin
+            ];  
         
-        $stmt->close(); 
-        return $user;
-
-        }else{
             $stmt->close(); 
-            return false;
-        }
-    
-}
-    public function getBooks(){
+            return $user;
 
+            }else{
+                $stmt->close(); 
+                return false;
+            }
+    }
+
+    public function getBooks(){
+        
         $sql = "SELECT * FROM products";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();

@@ -42,7 +42,7 @@ class RegistrationForm extends React.Component{
         if(value.trim()=== "") {
             return "Username empty";
         }
-        if (!/^[A-Za-z\s]+$/.test(value)){
+        if (!/^[A-Za-z0-9_ ]{3,30}$/.test(value)){
             return "Username Must contain Letters only";
         }
         return "";
@@ -56,7 +56,7 @@ class RegistrationForm extends React.Component{
         if (!/^[0-9]+$/.test(value)){
             return "Phone Number Must contain numbers only";
         }
-        if (value.length !==11){
+        if (value.length !==10){
             return "Phone number must be exactly 10 digits";
         }
         return "";

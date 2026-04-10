@@ -46,9 +46,6 @@ class LoginForm extends React.Component{
         if(value.trim()=== "") {
             return "Password is Required";
         }
-        if (!/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/.test(value)){
-            return "Must contain a minimum of eight characters, at least one upper case English letter, one lower case English letter, one number and one special character";
-        }
         return "";
     }
 
@@ -101,7 +98,7 @@ class LoginForm extends React.Component{
 
                 <div className ="form-group">
                 <input className="input-field"
-                    type = "text"
+                    type = "email"
                     name = "Email"
                     autoComplete="email"
                     value ={this.state.email}

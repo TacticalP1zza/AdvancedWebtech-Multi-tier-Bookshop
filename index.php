@@ -1,6 +1,5 @@
-
-
 <?php
+session_start();
 
 require_once "Model/model.class.php";
 require_once "Controller/controller.class.php";
