@@ -155,7 +155,7 @@ class RegistrationForm extends React.Component{
             return;
         }
 
-        fetch("index.php?checkUserName&userName=" + encodeURIComponent(this.state.userName))
+        fetch("index.php?action=checkUserName&userName=" + encodeURIComponent(this.state.userName))
         .then(response => response.json())
         .then(data =>{
             if (data.exists){

@@ -101,7 +101,7 @@ class Controller
 
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $success = $this->model->insertUser($userName, $phone, $email, $hashedPassword);
-            $_SESSION["register_succes"] = "Registration Succesful. Please Log in."
+            $_SESSION["register_succes"] = "Registration Succesful. Please Log in.";
             header("Location: index.php?action=login");
             exit;
         }

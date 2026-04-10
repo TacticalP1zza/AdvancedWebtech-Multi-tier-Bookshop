@@ -37,7 +37,9 @@ class Model
         $sql = "INSERT INTO Accounts (userName, phone, email, password) VALUES (?,?,?,?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ssss", $userName, $phone, $email, $hashedPassword);
-        return $stmt->execute();
+        $stmt->execute();
+        $stmt->close();
+        return $succes;
     }
 
     public function getUserByEmail($email){
@@ -69,7 +71,7 @@ class Model
     }
 
     public function getBooks(){
-        
+
         $sql = "SELECT * FROM products";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
