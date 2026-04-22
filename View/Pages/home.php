@@ -1,13 +1,40 @@
 <div id="book-list" class="book-grid"></div>
 <div id="book-message"></div>
-
+<link rel="stylesheet" href="View/Pages/displaybooks.css">
 <script>
+var currentCategory = "";
+var currentSubcategory = "";
+
 document.addEventListener("DOMContentLoaded", function () {
+    bindBookFilters();
     loadBooks();
 });
-//week 4 CSC-300025 Advanced Web Technologies - AJAX Example
-function loadBooks() {
+
+function bindBookFilters() {
+    var filterLinks = document.querySelectorAll(".book-filter-link");
+
+    for (var i = 0; i < filterLinks.length; i++) {
+        filterLinks[i].addEventListener("click", function (event) {
+            event.preventDefault();
+
+            currentCategory = this.getAttribute("data-category") || "";
+            currentSubcategory = this.getAttribute("data-subcategory") || "";
+
+            loadBooks(currentCategory, currentSubcategory);
+        });
+    }
+}
+
+function loadBooks(category, subcategory) {
     var httpxml;
+
+    if (typeof category === "undefined") {
+        category = currentCategory;
+    }
+
+    if (typeof subcategory === "undefined") {
+        subcategory = currentSubcategory;
+    }
 
     try {
         httpxml = new XMLHttpRequest();
@@ -42,7 +69,17 @@ function loadBooks() {
         }
     };
 
-    httpxml.open("GET", "index.php?action=getBooksAjax", true);
+    var url = "index.php?action=getBooksAjax";
+
+    if (category !== "") {
+        url += "&category=" + encodeURIComponent(category);
+    }
+
+    if (subcategory !== "") {
+        url += "&subcategory=" + encodeURIComponent(subcategory);
+    }
+
+    httpxml.open("GET", url, true);
     httpxml.send(null);
 
     document.getElementById("book-message").innerHTML = "<p>Please wait...</p>";
@@ -74,6 +111,7 @@ function displayBooks(books) {
             '<p><strong>Author:</strong> ' + escapeHtml(book.author ? book.author : "") + '</p>' +
             '<p><strong>Genre:</strong> ' + escapeHtml(book.genre ? book.genre : "") + '</p>' +
             '<p><strong>Category:</strong> ' + escapeHtml(book.category ? book.category : "") + '</p>' +
+            '<p><strong>Subcategory:</strong> ' + escapeHtml(book.subcategory ? book.subcategory : "") + '</p>' +
             '<p class="price">£' + escapeHtml(book.price ? book.price : "") + '</p>';
 
         bookList.appendChild(bookCard);

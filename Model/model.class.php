@@ -69,18 +69,39 @@ class Model
                 return false;
             }
     }
-
-    public function getBooks(){
-
-        $sql = "SELECT * FROM products";
+    public function getBooks($category = '', $subcategory = '')
+    {
+        $sql = "SELECT * FROM products WHERE 1=1";
+        $params = [];
+        $types = "";
+    
+        if ($category !== '') {
+            $sql .= " AND category = ?";
+            $params[] = $category;
+            $types .= "s";
+        }
+    
+        if ($subcategory !== '') {
+            $sql .= " AND subcategory = ?";
+            $params[] = $subcategory;
+            $types .= "s";
+        }
+    
         $stmt = $this->conn->prepare($sql);
+    
+        if (!empty($params)) {
+            $stmt->bind_param($types, ...$params);
+        }
+    
         $stmt->execute();
         $result = $stmt->get_result();
+    
         $books = [];
-
-        while($row = $result->fetch_assoc()){
+    
+        while ($row = $result->fetch_assoc()) {
             $books[] = $row;
         }
+    
         return $books;
     }
 }

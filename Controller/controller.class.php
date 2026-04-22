@@ -165,13 +165,17 @@ class Controller
             header("Location: index.php?action=login");
             exit;
         }
-
         public function getBooksAjax()
         {
-        header('Content-Type: application/json');
-        $books = $this->model->getBooks();
-        echo json_encode($books);
-        exit;
+            header('Content-Type: application/json');
+        
+            $category = isset($_GET['category']) ? trim($_GET['category']) : '';
+            $subcategory = isset($_GET['subcategory']) ? trim($_GET['subcategory']) : '';
+        
+            $books = $this->model->getBooks($category, $subcategory);
+        
+            echo json_encode($books);
+            exit;
         }
 
     

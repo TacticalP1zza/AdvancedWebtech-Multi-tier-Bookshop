@@ -83,7 +83,7 @@ body{
 }
 
 .input-field:focus ~ .floating-label, 
-.input-field:not(:placeholder-shown) ~ .floating-label, .input-field:-webkit-autofill ~ .floating-label{
+.input-field:not(:placeholder-shown) ~ .floating-label{
     top: 0;
     transform: translateY(-50%);
     font-size: 12px;

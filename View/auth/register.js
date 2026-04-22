@@ -239,8 +239,8 @@ class RegistrationForm extends React.Component{
                     onChange ={this.handleChange}
                     placeholder = "" required
                 /><label className="floating-label">email</label>
-                <div style={{color:"red"}}>{this.state.emailErorr}</div>
                 </div>
+                <div style={{color:"red"}}>{this.state.emailErorr}</div>
                 
                 <div className ="form-group">
                 <input className="input-field"
@@ -250,31 +250,31 @@ class RegistrationForm extends React.Component{
                     onChange ={this.handleChange}
                     placeholder = "" required
                 /><label className="floating-label">confirm Email</label>
-                <div style={{color:"red"}}>{this.state.confirmEmailError}</div>
                 </div>
+                <div style={{color:"red"}}>{this.state.confirmEmailError}</div>
 
                 <div className ="form-group">
                 
                 <input className="input-field"
                     type = "password"
-                    name = "password"
+                    name = "Password"
                     value ={this.state.password}
                     onChange ={this.handleChange}
                     placeholder = "" required
                 /><label className="floating-label">password</label>
-                <div style={{color:"red"}}>{this.state.passwordErorr}</div>
                 </div>
+                <div style={{color:"red"}}>{this.state.passwordErorr}</div>
 
                 <div className ="form-group">
                 <input className="input-field"
                     type = "password"
-                    name = "confirmPassword"
+                    name = "Confirm Password"
                     value ={this.state.confirmPassword}
                     onChange ={this.handleChange}
                     placeholder = "" required
                 /><label className="floating-label">Confrim Password</label>
-                <div style={{color:"red"}}>{this.state.confirmPasswordError}</div>
                 </div>
+                <div style={{color:"red"}}>{this.state.confirmPasswordError}</div>
 
                 <button className = "Form-Button" type="submit">Register</button>
                 <div style={{color:"red"}}>{this.state.formMessage}</div>
