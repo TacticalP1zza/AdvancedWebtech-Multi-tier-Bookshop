@@ -97,6 +97,26 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+.order-button {
+    margin-top: 1.2rem;
+    width: 100%;
+    padding: 1rem 1.2rem;
+    border-radius: 999px;
+    border: none;
+    background: #0058A3;
+    color: white;
+    font-size: 1.4rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+}
+
+.order-button:hover {
+    background: #FFDA1A;
+    color: #003B73;
+}
+
 /* Large laptop / smaller desktop */
 @media (max-width: 1280px) {
     .book-grid {

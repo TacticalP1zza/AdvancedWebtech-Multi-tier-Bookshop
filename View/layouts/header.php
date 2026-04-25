@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Idea Bookstore is an online bookstore offering children's and adult books including fiction, classics, comics, and crime thrillers.">
+    <meta name="keywords" content="online bookstore, kids books, adult books, fiction, classic novels, comics, crime thriller">
+    <meta name="author" content="22018575">
     <title>Idea Bookstore</title>
     <link rel="stylesheet" href="View/layouts/header.css">
 <script src="/AdvancedWebtech-Multi-tier-Bookshop/Dependencies/node_modules/react/umd/react.development.js"></script>
@@ -101,18 +104,48 @@
                 </li>
 
                 <li class="nav-dropdown">
-                <a href="index.php?action=account" class="nav-link nav-dropdown__trigger">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="currentColor"/>
-                <path d="M12 14C7.58172 14 4 17.134 4 21H20C20 17.134 16.4183 14 12 14Z" fill="currentColor"/>
-            </svg>
-            <span>Account</span>
-            <svg class="nav-chevron" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-            </svg>
-        </a>
+    <a href="#" class="nav-link nav-dropdown__trigger">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="currentColor"/>
+            <path d="M12 14C7.58172 14 4 17.134 4 21H20C20 17.134 16.4183 14 12 14Z" fill="currentColor"/>
+        </svg>
+        <span>
+            <?php if (!empty($_SESSION['loggedIn'])): ?>
+                <?php echo htmlspecialchars($_SESSION['username']); ?>
+            <?php else: ?>
+                Account
+            <?php endif; ?>
+        </span>
+        <svg class="nav-chevron" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+    </a>
 
-        <div class="dropdown-panel dropdown-panel--right">
+    <div class="dropdown-panel dropdown-panel--right">
+    <?php if (!empty($_SESSION['loggedIn'])): ?>
+
+<?php if (!empty($_SESSION['admin']) && $_SESSION['admin'] == 1): ?>
+
+    <a href="index.php?action=adminDashboard" class="dropdown-item">
+        <span class="dropdown-title">Admin Dashboard</span>
+        <span class="dropdown-desc">Manage orders and system</span>
+    </a>
+
+<?php else: ?>
+
+    <a href="index.php?action=orderHistory" class="dropdown-item">
+        <span class="dropdown-title">Order History</span>
+        <span class="dropdown-desc">Review your previous orders</span>
+    </a>
+
+<?php endif; ?>
+
+<a href="index.php?action=logout" class="dropdown-item">
+    <span class="dropdown-title">Sign Out</span>
+    <span class="dropdown-desc">Log out of your account</span>
+</a>
+
+<?php else: ?>
             <a href="index.php?action=login" class="dropdown-item">
                 <span class="dropdown-title">Login</span>
                 <span class="dropdown-desc">Sign in to your bookstore account</span>
@@ -122,7 +155,8 @@
                 <span class="dropdown-title">Register</span>
                 <span class="dropdown-desc">Create a new customer account</span>
             </a>
-        </div>
+        <?php endif; ?>
+    </div>
 </li>
             </ul>
         </div>

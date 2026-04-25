@@ -6,287 +6,327 @@
 /change to onBlur only send when loseing focus
 */
 
+class RegistrationForm extends React.Component {
+    constructor(props) {
+        super(props);
 
-class RegistrationForm extends React.Component{
-    constructor(props){
-        super(props)
+        this.state = {
+            userName: "",
+            phone: "",
+            email: "",
+            confirmEmail: "",
+            password: "",
+            confirmPassword: "",
 
+            userNameError: "",
+            phoneErorr: "",
+            emailErorr: "",
+            confirmEmailError: "",
+            passwordErorr: "",
+            confirmPasswordError: "",
 
-    this.state ={
-        userName: "",
-        phone:"",
-        email: "",
-        confirmEmail: "",
-        password: "",
-        confirmPassword: "",
+            emailAvailability: "",
+            formMessage: "",
 
-        userNameError: "",
-        phoneErorr:"",
-        emailErorr: "",
-        confirmEmailError: "",
-        passwordErorr: "",
-        confirmPasswordError: "",
+            serverErrors: window.registerErrors || [],
+            serverSuccess: window.registerSuccess || "",
 
-        userNameAvailability:"",
-        formMessage:""
+            touched: {
+                userName: false,
+                phone: false,
+                email: false,
+                confirmEmail: false,
+                password: false,
+                confirmPassword: false
+            }
+        };
 
-
-    };
-    
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.checkUserNameAvailability = this.checkUserNameAvailability.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.checkEmailAvailability = this.checkEmailAvailability.bind(this);
+        this.runValidation = this.runValidation.bind(this);
+        this.getInputClass = this.getInputClass.bind(this);
+        this.getButtonClass = this.getButtonClass.bind(this);
     }
 
-    validateUserName(value){
-        if(value.trim()=== "") {
-            return "Username empty";
-        }
-        if (!/^[A-Za-z0-9_ ]{3,30}$/.test(value)){
-            return "Username Must contain Letters only";
+    validateUserName(v) {
+        if (v.trim() === "") return "Username empty";
+        if (!/^[A-Za-z0-9_ ]{3,30}$/.test(v)) return "Invalid username";
+        return "";
+    }
+
+    validatePhone(v) {
+        if (v.trim() === "") return "Phone empty";
+        if (!/^[0-9]+$/.test(v)) return "Numbers only";
+        if (v.length !== 10) return "Must be 10 digits";
+        return "";
+    }
+
+    validateEmail(v) {
+        if (v.trim() === "") return "Email required";
+        if (!/^[\w.-]+@([\w-]+\.)+[\w-]{2,}$/.test(v)) return "Invalid email";
+        return "";
+    }
+
+    confirmEmail(v) {
+        if (v.trim() === "") return "Confirm email";
+        if (v !== this.state.email) return "Emails must match";
+        return "";
+    }
+
+    validatePassword(v) {
+        if (v.trim() === "") return "Password required";
+        if (!/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(v)) {
+            return "Weak password";
         }
         return "";
     }
 
-    //to do validate first number is 07
-    validatePhone(value){
-        if(value.trim()=== "") {
-            return "phone empty";
-        }
-        if (!/^[0-9]+$/.test(value)){
-            return "Phone Number Must contain numbers only";
-        }
-        if (value.length !==10){
-            return "Phone number must be exactly 10 digits";
-        }
+    confirmPassword(v) {
+        if (v.trim() === "") return "Confirm password";
+        if (v !== this.state.password) return "Passwords must match";
         return "";
     }
 
-    validateEmail(value){
-        if(value.trim()=== "") {
-            return "Email is Requred";
-        }
-        if (!/^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)){
-            return "Must be valid email";
-        }
-        return "";
-    }
-    //add confimration statement
-    confirmEmail(value){
-        if(value.trim()=== "") {
-            return "Must Confirm Email";
-        }
-        if (value !== this.state.email){
-            return "Must match email";
-        }
-        return "";
-    }
-    // https://ihateregex.io/expr/password/
-    //Minimum eight characters, at least one upper case English letter, one lower case English letter, one number and one special character
-    validatePassword(value){
-        if(value.trim()=== "") {
-            return "Password is Required";
-        }
-        if (!/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/.test(value)){
-            return "Must contain a minimum of eight characters, at least one upper case English letter, one lower case English letter, one number and one special character";
-        }
-        return "";
-    }
-    //todo add confirmation condition
-    confirmPassword(value){
-        if(value.trim()=== "") {
-            return "Must confirm Password";
-        }
-        if (value !== this.state.password){
-            return "Passwords Must match";
-        }
-        return "";
-    }
-
-    handleChange(event){
-        const name = event.target.name;
-        const value = event.target.value;
-
-        this.setState({[name]: value}, () => {
-        if( name === "userName"){
-            this.setState({
-               userNameError: this.validateUserName(value),
-               userNameAvailability: ""
-            });
-        }
-        if( name === "phone"){
-            this.setState({
-               phoneErorr: this.validatePhone(value)
-            });
-        }
-        if( name === "email"){
-            this.setState({
-               emailErorr: this.validateEmail(value),
-               confirmEmailError: this.confirmEmail(this.state.confirmEmail)
-        
-            });
-        }
-        if( name === "confirmEmail"){
-            this.setState({
-               confirmEmailError: this.confirmEmail(value)
-            });
-        }
-        if( name === "password"){
-            this.setState({
-               passwordErorr: this.validatePassword(value),
-               confirmPasswordError: this.confirmPassword(this.state.confirmPassword)
-            });
-        }
-        if( name === "confirmPassword"){
-            this.setState({
-               confirmPasswordError: this.confirmPassword(value),
-        
-            });
-        }
-    });
-    }
-
-    checkUserNameAvailability(){
-        const userNameError = this.validateUserName(this.state.userName)
-
-        this.setState({ userNameError: userNameError})
-
-        if(userNameError !==""){
+    checkEmailAvailability(email) {
+        if (this.validateEmail(email) !== "") {
+            this.setState({ emailAvailability: "" });
             return;
         }
 
-        fetch("index.php?action=checkUserName&userName=" + encodeURIComponent(this.state.userName))
-        .then(response => response.json())
-        .then(data =>{
-            if (data.exists){
-                this.setState({userNameAvailability: "Username is already in use"})
+        this.setState({ emailAvailability: "Checking..." });
 
-            } else { this.setState({userNameAvailability: "Username is available"})}
-        })
-        .catch(error => {
-            this.setState({userNameAvailability: "could not check username right now"})
+        fetch("index.php?action=checkEmailExistController&email=" + encodeURIComponent(email))
+            .then((res) => {
+                if (!res.ok) throw new Error("Network error");
+                return res.json();
+            })
+            .then((data) => {
+                this.setState({
+                    emailAvailability: data.exists ? "Email already in use" : "Email available"
+                });
+            })
+            .catch(() => {
+                this.setState({ emailAvailability: "Error checking email" });
+            });
+    }
+
+    handleChange(e) {
+        const { name, value } = e.target;
+        this.setState({
+            [name]: value,
+            formMessage: "",
+            serverErrors: [],
+            serverSuccess: ""
         });
     }
 
-    handleSubmit(event){
-        const userNameError = this.validateUserName(this.state.userName);
-        const phoneErorr = this.validatePhone(this.state.phone);
-        const emailErorr= this.validateEmail(this.state.email);
-        const confirmEmailError = this.confirmEmail(this.state.confirmEmail);
-        const passwordErorr= this.validatePassword(this.state.password);
-        const confirmPasswordError = this.confirmPassword(this.state.confirmPassword);
-        
-        this.setState({
-           userNameError: userNameError,
-           phoneErorr:  phoneErorr,
-           emailErorr: emailErorr,
-           confirmEmailError: confirmEmailError,
-           passwordErorr: passwordErorr,
-           confirmPasswordError: confirmPasswordError
+    handleBlur(e) {
+        const name = e.target.name;
 
-        })
+        this.setState(
+            (prev) => ({
+                touched: {
+                    ...prev.touched,
+                    [name]: true
+                }
+            }),
+            () => this.runValidation(name)
+        );
+    }
 
+    runValidation(name) {
+        const v = this.state[name];
 
-        if(
-            userNameError !=="" ||
-            phoneErorr !=="" ||
-            emailErorr !=="" ||
-            confirmEmailError !=="" ||
-            passwordErorr !=="" ||
-            confirmPasswordError !=="" ||
-            this.state.userNameAvailability === "Username is already in use"
-        ){
-            event.preventDefault();
-            this.setState({formMessage: "please fix the errors before registering"})
+        if (name === "userName") {
+            this.setState({ userNameError: this.validateUserName(v) });
+        }
+
+        if (name === "phone") {
+            this.setState({ phoneErorr: this.validatePhone(v) });
+        }
+
+        if (name === "email") {
+            const err = this.validateEmail(v);
+            this.setState(
+                {
+                    emailErorr: err,
+                    emailAvailability: "",
+                    confirmEmailError: this.state.touched.confirmEmail ? this.confirmEmail(this.state.confirmEmail) : ""
+                },
+                () => {
+                    if (err === "") this.checkEmailAvailability(v);
+                }
+            );
+        }
+
+        if (name === "confirmEmail") {
+            this.setState({ confirmEmailError: this.confirmEmail(v) });
+        }
+
+        if (name === "password") {
+            this.setState({
+                passwordErorr: this.validatePassword(v),
+                confirmPasswordError: this.state.touched.confirmPassword ? this.confirmPassword(this.state.confirmPassword) : ""
+            });
+        }
+
+        if (name === "confirmPassword") {
+            this.setState({ confirmPasswordError: this.confirmPassword(v) });
         }
     }
 
+    handleSubmit(e) {
+        const errors = {
+            userNameError: this.validateUserName(this.state.userName),
+            phoneErorr: this.validatePhone(this.state.phone),
+            emailErorr: this.validateEmail(this.state.email),
+            confirmEmailError: this.confirmEmail(this.state.confirmEmail),
+            passwordErorr: this.validatePassword(this.state.password),
+            confirmPasswordError: this.confirmPassword(this.state.confirmPassword)
+        };
 
-    render(){
-        return(
-            <div className = "container">
-            <div className ="registeration-container">
-                <h1 className = "header">Registeration Form</h1>
-            <form method="POST" action="index.php?action=registerSubmit" onSubmit={this.handleSubmit}>
-                <div className ="form-group">
-                <input className="input-field"
-                    type = "text"
-                    name = "userName"
-                    value ={this.state.userName}
-                    onChange ={this.handleChange}
-                    placeholder = "" required
-                   
-                /><label className="floating-label">Username</label>
-                </div>
-                <div style={{color:"red"}}>{this.state.userNameError}</div>
+        this.setState({
+            ...errors,
+            touched: {
+                userName: true,
+                phone: true,
+                email: true,
+                confirmEmail: true,
+                password: true,
+                confirmPassword: true
+            }
+        });
 
-                <div className ="form-group">
-                <input className="input-field"
-                    type = "text"
-                    name = "phone"
-                    value ={this.state.phone}
-                    onChange ={this.handleChange}
-                    placeholder = "" required
-                /><label className="floating-label">Phone</label>
-                </div>
-                <div style={{color:"red"}}>{this.state.phoneErorr}</div>
-                
-                <div className ="form-group">
-                <input className="input-field"
-                    type = "text"
-                    name = "email"
-                    value ={this.state.email}
-                    onChange ={this.handleChange}
-                    placeholder = "" required
-                /><label className="floating-label">email</label>
-                </div>
-                <div style={{color:"red"}}>{this.state.emailErorr}</div>
-                
-                <div className ="form-group">
-                <input className="input-field"
-                    type = "text"
-                    name = "confirmEmail"
-                    value ={this.state.confirmEmail}
-                    onChange ={this.handleChange}
-                    placeholder = "" required
-                /><label className="floating-label">confirm Email</label>
-                </div>
-                <div style={{color:"red"}}>{this.state.confirmEmailError}</div>
+        const hasErrors =
+            Object.values(errors).some((err) => err !== "") ||
+            this.state.emailAvailability === "Email already in use" ||
+            this.state.emailAvailability === "Error checking email";
 
-                <div className ="form-group">
-                
-                <input className="input-field"
-                    type = "password"
-                    name = "Password"
-                    value ={this.state.password}
-                    onChange ={this.handleChange}
-                    placeholder = "" required
-                /><label className="floating-label">password</label>
-                </div>
-                <div style={{color:"red"}}>{this.state.passwordErorr}</div>
+        if (hasErrors) {
+            e.preventDefault();
+            this.setState({ formMessage: "Fix errors before submitting" });
+        }
+    }
 
-                <div className ="form-group">
-                <input className="input-field"
-                    type = "password"
-                    name = "Confirm Password"
-                    value ={this.state.confirmPassword}
-                    onChange ={this.handleChange}
-                    placeholder = "" required
-                /><label className="floating-label">Confrim Password</label>
-                </div>
-                <div style={{color:"red"}}>{this.state.confirmPasswordError}</div>
+    getInputClass(name, error) {
+        if (!this.state.touched[name]) return "input-field";
+        if (error !== "") return "input-field input-error";
 
-                <button className = "Form-Button" type="submit">Register</button>
-                <div style={{color:"red"}}>{this.state.formMessage}</div>
-            </form>
-            </div>
+        if (name === "email") {
+            if (this.state.emailAvailability === "Email already in use") {
+                return "input-field input-error";
+            }
+            if (this.state.emailAvailability === "Email available") {
+                return "input-field input-valid";
+            }
+            return "input-field";
+        }
+
+        return "input-field input-valid";
+    }
+
+    getButtonClass() {
+        const errors = [
+            this.state.userNameError,
+            this.state.phoneErorr,
+            this.state.emailErorr,
+            this.state.confirmEmailError,
+            this.state.passwordErorr,
+            this.state.confirmPasswordError
+        ];
+
+        const hasErrors =
+            errors.some((err) => err !== "") ||
+            this.state.emailAvailability === "Email already in use" ||
+            this.state.emailAvailability === "Error checking email";
+
+        const allTouched = Object.values(this.state.touched).every((v) => v);
+
+        return allTouched && !hasErrors
+            ? "Form-Button button-success"
+            : "Form-Button button-error";
+    }
+
+    render() {
+        const emailMessageClass =
+            this.state.emailAvailability === "Email available"
+                ? "Success-Message"
+                : "Error-Message";
+
+        return (
+            <div className="container">
+                <div className="registeration-container">
+                    <h1 className="header">Registeration Form</h1>
+
+                    {this.state.serverSuccess && (
+                        <div className="Success-Message">{this.state.serverSuccess}</div>
+                    )}
+
+                    {this.state.serverErrors.length > 0 && (
+                        <div className="Error-Message">
+                            {this.state.serverErrors.map((error, index) => (
+                                <div key={index}>{error}</div>
+                            ))}
+                        </div>
+                    )}
+
+                    <form
+                        method="POST"
+                        action="index.php?action=registerSubmit"
+                        onSubmit={this.handleSubmit}
+                        autoComplete="off"
+                    >
+                        <input type="text" name="fakeuser" autoComplete="username" style={{ display: "none" }} tabIndex="-1" />
+                        <input type="password" name="fakepass" autoComplete="current-password" style={{ display: "none" }} tabIndex="-1" />
+
+                        <div className="form-group">
+                            <input className={this.getInputClass("userName", this.state.userNameError)} type="text" name="userName" value={this.state.userName} onChange={this.handleChange} onBlur={this.handleBlur} placeholder=" " autoComplete="off" required />
+                            <label className="floating-label">Username</label>
+                        </div>
+                        {this.state.touched.userName && this.state.userNameError && <div className="Error-Message">{this.state.userNameError}</div>}
+
+                        <div className="form-group">
+                            <input className={this.getInputClass("phone", this.state.phoneErorr)} type="text" name="phone" value={this.state.phone} onChange={this.handleChange} onBlur={this.handleBlur} placeholder=" " autoComplete="off" required />
+                            <label className="floating-label">Phone</label>
+                        </div>
+                        {this.state.touched.phone && this.state.phoneErorr && <div className="Error-Message">{this.state.phoneErorr}</div>}
+
+                        <div className="form-group">
+                            <input className={this.getInputClass("email", this.state.emailErorr)} type="text" name="email" value={this.state.email} onChange={this.handleChange} onBlur={this.handleBlur} placeholder=" " autoComplete="off" required />
+                            <label className="floating-label">Email</label>
+                        </div>
+                        {this.state.touched.email && this.state.emailErorr && <div className="Error-Message">{this.state.emailErorr}</div>}
+                        {this.state.touched.email && this.state.emailErorr === "" && this.state.emailAvailability && (
+                            <div className={emailMessageClass}>{this.state.emailAvailability}</div>
+                        )}
+
+                        <div className="form-group">
+                            <input className={this.getInputClass("confirmEmail", this.state.confirmEmailError)} type="text" name="confirmEmail" value={this.state.confirmEmail} onChange={this.handleChange} onBlur={this.handleBlur} placeholder=" " autoComplete="off" required />
+                            <label className="floating-label">Confirm Email</label>
+                        </div>
+                        {this.state.touched.confirmEmail && this.state.confirmEmailError && <div className="Error-Message">{this.state.confirmEmailError}</div>}
+
+                        <div className="form-group">
+                            <input className={this.getInputClass("password", this.state.passwordErorr)} type="password" name="password" value={this.state.password} onChange={this.handleChange} onBlur={this.handleBlur} placeholder=" " autoComplete="new-password" required />
+                            <label className="floating-label">Password</label>
+                        </div>
+                        {this.state.touched.password && this.state.passwordErorr && <div className="Error-Message">{this.state.passwordErorr}</div>}
+
+                        <div className="form-group">
+                            <input className={this.getInputClass("confirmPassword", this.state.confirmPasswordError)} type="password" name="confirmPassword" value={this.state.confirmPassword} onChange={this.handleChange} onBlur={this.handleBlur} placeholder=" " autoComplete="new-password" required />
+                            <label className="floating-label">Confirm Password</label>
+                        </div>
+                        {this.state.touched.confirmPassword && this.state.confirmPasswordError && <div className="Error-Message">{this.state.confirmPasswordError}</div>}
+
+                        <button className={this.getButtonClass()} type="submit">Register</button>
+                        {this.state.formMessage && <div className="Error-Message">{this.state.formMessage}</div>}
+                    </form>
+                </div>
             </div>
         );
     }
-   
 }
 
-
-ReactDOM.render(
-        <RegistrationForm />, document.getElementById("register-root")
-        )
+ReactDOM.render(<RegistrationForm />, document.getElementById("register-root"));

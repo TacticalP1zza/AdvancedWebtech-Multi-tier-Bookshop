@@ -2,6 +2,7 @@
 <div id="book-message"></div>
 <link rel="stylesheet" href="View/Pages/displaybooks.css">
 <script>
+window.loggedIn = <?php echo !empty($_SESSION['loggedIn']) ? 'true' : 'false'; ?>;
 var currentCategory = "";
 var currentSubcategory = "";
 
@@ -112,7 +113,15 @@ function displayBooks(books) {
             '<p><strong>Genre:</strong> ' + escapeHtml(book.genre ? book.genre : "") + '</p>' +
             '<p><strong>Category:</strong> ' + escapeHtml(book.category ? book.category : "") + '</p>' +
             '<p><strong>Subcategory:</strong> ' + escapeHtml(book.subcategory ? book.subcategory : "") + '</p>' +
-            '<p class="price">£' + escapeHtml(book.price ? book.price : "") + '</p>';
+            '<p class="price">£' + escapeHtml(book.price ? book.price : "") + '</p>' +
+
+            (
+            window.loggedIn
+            ? '<a class="order-button" href="index.php?action=orderPage&product_id=' + escapeHtml(book.id) + '">' +
+                'Order Now' +
+                '</a>'
+            : '<a class="order-button" href="index.php?action=login">Login to Order</a>'
+            );
 
         bookList.appendChild(bookCard);
     }

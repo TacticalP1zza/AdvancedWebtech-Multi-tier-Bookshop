@@ -1,0 +1,207 @@
+/* ===== Page Wrapper ===== */
+.admin-page {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+}
+
+.admin-page h1 {
+    text-align: center;
+    font-size: 2.4rem;
+    color: #003B73;
+    margin-bottom: 2rem;
+}
+
+/* ===== Top Row Layout ===== */
+.admin-top-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+/* ===== Panels ===== */
+.rest-api-panel,
+.admin-filter-panel {
+    background: #ffffff;
+    border: 1px solid #d9e2ec;
+    border-radius: 1.2rem;
+    padding: 1.4rem;
+    min-height: 160px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* ===== Titles ===== */
+.rest-api-panel h2,
+.admin-filter-panel h2 {
+    font-size: 1.6rem;
+    color: #003B73;
+    margin-bottom: 0.6rem;
+}
+
+/* ===== Small helper text ===== */
+.panel-tip {
+    font-size: 1.2rem;
+    color: #6b7280;
+    margin-bottom: 1rem;
+}
+
+/* ===== REST Form ===== */
+.rest-api-form {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Input matches dropdown */
+.rest-api-form input {
+    flex: 1;
+    padding: 0.8rem;
+    border-radius: 999px;
+    border: 1px solid #d9e2ec;
+    font-size: 1.2rem;
+}
+
+.rest-api-form input:focus {
+    outline: 2px solid rgba(0, 88, 163, 0.2);
+    border-color: #0058A3;
+}
+
+/* Buttons (smaller + cleaner) */
+.rest-api-form button {
+    padding: 0.7rem 1.2rem;
+    border-radius: 999px;
+    border: 1px solid #d9e2ec;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: #ffffff;
+    color: #003B73;
+    transition: 0.2s;
+}
+
+#restLookupButton {
+    background: #0058A3;
+    color: white;
+    border: none;
+}
+
+#restLookupButton:hover {
+    background: #003B73;
+}
+
+#resetOrdersButton {
+    background: #FFDA1A;
+    color: #003B73;
+    border: none;
+}
+
+#resetOrdersButton:hover {
+    background: #e6c300;
+}
+
+/* ===== Filter ===== */
+.admin-filter-row {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.admin-filter-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-filter-group label {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    color: #003B73;
+}
+
+.admin-filter-group select {
+    padding: 0.8rem;
+    border-radius: 999px;
+    border: 1px solid #d9e2ec;
+    font-size: 1.2rem;
+}
+
+/* ===== Orders Grid ===== */
+.admin-orders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.2rem;
+}
+
+/* ===== Order Card ===== */
+.admin-order-card {
+    background: #ffffff;
+    border-radius: 1.2rem;
+    padding: 1.4rem;
+    border: 1px solid #d9e2ec;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transition: 0.2s;
+}
+
+.admin-order-card:hover {
+    transform: translateY(-3px);
+    border-color: #FFDA1A;
+}
+
+.admin-order-card h3 {
+    font-size: 1.5rem;
+    color: #0058A3;
+    margin-bottom: 0.6rem;
+}
+
+.admin-order-card p {
+    font-size: 1.2rem;
+    margin: 0.25rem 0;
+    color: #1F2937;
+}
+
+/* ===== Messages ===== */
+.admin-error,
+.admin-success {
+    padding: 0.8rem;
+    border-radius: 0.8rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 0.8rem;
+}
+
+.admin-error {
+    background: #f8d7da;
+    color: #842029;
+}
+
+.admin-success {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+/* ===== Button ===== */
+.order-button {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.8rem 1.6rem;
+    border-radius: 999px;
+    background: #0058A3;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.order-button:hover {
+    background: #003B73;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 800px) {
+    .admin-top-row {
+        grid-template-columns: 1fr;
+    }
+}

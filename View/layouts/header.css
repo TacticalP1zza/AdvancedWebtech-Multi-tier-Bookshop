@@ -1,8 +1,8 @@
 :root {
-    --ikea-blue: #0058A3;
-    --ikea-blue-dark: #003B73;
-    --ikea-yellow: #FFDA1A;
-    --ikea-yellow-dark: #F2C200;
+    --idea-blue: #0058A3;
+    --idea-blue-dark: #003B73;
+    --idea-yellow: #FFDA1A;
+    --idea-yellow-dark: #F2C200;
     --white: #FFFFFF;
     --off-white: #F7F9FC;
     --text-dark: #1F2937;
@@ -74,7 +74,7 @@ ul {
     display: flex;
     align-items: center;
     gap: 1.2rem;
-    color: var(--ikea-blue);
+    color: var(--idea-blue);
     font-weight: 800;
     font-size: 2.2rem;
     letter-spacing: 0.02em;
@@ -84,8 +84,8 @@ ul {
     width: 4.8rem;
     height: 4.8rem;
     border-radius: 50%;
-    border: 2px solid var(--ikea-yellow);
-    background: var(--ikea-blue);
+    border: 2px solid var(--idea-yellow);
+    background: var(--idea-blue);
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -110,7 +110,7 @@ ul {
     display: none;
     width: 4.4rem;
     height: 4.4rem;
-    background: var(--ikea-blue);
+    background: var(--idea-blue);
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -152,7 +152,7 @@ ul {
     padding: 1rem 1.4rem;
     border-radius: 999px;
     background: var(--white);
-    color: var(--ikea-blue);
+    color: var(--idea-blue);
     font-size: 1.6rem;
     font-weight: 700;
     line-height: 1;
@@ -167,8 +167,8 @@ ul {
 
 .nav-link:hover,
 .nav-link:focus {
-    background: var(--ikea-yellow);
-    color: var(--ikea-blue-dark);
+    background: var(--idea-yellow);
+    color: var(--idea-blue-dark);
     transform: translateY(-1px);
 }
 
@@ -227,7 +227,7 @@ ul {
     gap: 0.3rem;
     padding: 1rem 1.2rem;
     border-radius: 1rem;
-    color: var(--ikea-blue);
+    color: var(--idea-blue);
     background: transparent;
     transition: background-color 0.2s ease, color 0.2s ease;
 }
@@ -259,13 +259,13 @@ ul {
 
 .dropdown-item:hover,
 .dropdown-item:focus {
-    background: var(--ikea-yellow);
-    color: var(--ikea-blue-dark);
+    background: var(--idea-yellow);
+    color: var(--idea-blue-dark);
 }
 
 .dropdown-item:hover .dropdown-desc,
 .dropdown-item:focus .dropdown-desc {
-    color: var(--ikea-blue-dark);
+    color: var(--idea-blue-dark);
 }
 
 @media (max-width: 992px) {

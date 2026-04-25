@@ -1,18 +1,18 @@
 <?php
-if(session_status() === PHP_SESSION_NONE){
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-if(!isset($_SESSION['id']) || !isset($_SESSION['username'])){
+// Not logged in
+if (empty($_SESSION['loggedIn']) || $_SESSION['loggedIn'] !== true) {
     header("Location: index.php?action=login");
     exit;
 }
 
-if($_SESSION['id'] != session_id() || empty($_SESSION['Username'])){
+// Session hijack protection
+if (!isset($_SESSION['id']) || $_SESSION['id'] !== session_id()) {
+    session_destroy();
     header("Location: index.php?action=login");
     exit;
-} else{
-    session_regenerate_id(true);
-    $_SESSION['id'] = session_id();
 }
 ?>
