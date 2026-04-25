@@ -2,7 +2,7 @@
 $product = $_SESSION['order_product'] ?? null;
 
 if (!$product) {
-    header("Location: index.php?action=home");
+    header("Location: index.php?action=shop");
     exit;
 }
 ?>
@@ -30,7 +30,7 @@ if (!$product) {
             <input type="hidden" name="price" value="<?php echo htmlentities($product['price'], ENT_QUOTES, 'UTF-8'); ?>">
 
             <button type="submit" class="order-button">Confirm Order</button>
-            <a href="index.php?action=home" class="continue-shopping">Cancel</a>
+            <a href="index.php?action=shop" class="continue-shopping">Cancel</a>
         </form>
     </div>
 </div>

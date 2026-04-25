@@ -9,7 +9,7 @@ $model = new Model();
 $controller = new Controller($model);
 $view = new View($controller, $model);
 
-$page = "Pages/home";   // default page
+$page = "Pages/shop";   // default page
 
 if (isset($_GET['action']) && !empty($_GET['action'])) {
     $action = $_GET['action'];

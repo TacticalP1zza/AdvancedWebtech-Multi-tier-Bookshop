@@ -9,7 +9,7 @@ $orders = $this->model->getOrdersByAccountId($_SESSION['account_id']);
 
     <?php if (empty($orders)): ?>
         <p class="no-orders">You have not placed any orders yet.</p>
-        <a class="continue-shopping" href="index.php?action=home">Continue Shopping</a>
+        <a class="continue-shopping" href="index.php?action=shop">Continue Shopping</a>
     <?php else: ?>
         <div class="orders-grid">
             <?php foreach ($orders as $order): ?>
@@ -28,6 +28,6 @@ $orders = $this->model->getOrdersByAccountId($_SESSION['account_id']);
             <?php endforeach; ?>
         </div>
 
-        <a class="continue-shopping" href="index.php?action=home">Continue Shopping</a>
+        <a class="continue-shopping" href="index.php?action=shop">Continue Shopping</a>
     <?php endif; ?>
 </div>

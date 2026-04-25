@@ -9,9 +9,9 @@ class Controller
         $this->model = $model;
     }
 
-    public function home()
+    public function shop()
     {
-        return 'Pages/home';
+        return 'Pages/shop';
    
 
     }
@@ -183,7 +183,7 @@ class Controller
                 $_SESSION['loggedIn'] = True;
                 unset($_SESSION['login_captcha_id']);
                 unset($_SESSION['login_captcha_image']);
-                header("Location: index.php?action=home");
+                header("Location: index.php?action=shop");
                 exit;
             }else{
                 $_SESSION['login_errors'] = ["Incorrect password"];
@@ -238,7 +238,7 @@ class Controller
         
             if ($productId === '' || !is_numeric($productId)) {
                 $_SESSION['order_errors'] = ["Invalid product selected."];
-                header("Location: index.php?action=home");
+                header("Location: index.php?action=shop");
                 exit;
             }
         
@@ -246,7 +246,7 @@ class Controller
         
             if (!$product) {
                 $_SESSION['order_errors'] = ["Product not found."];
-                header("Location: index.php?action=home");
+                header("Location: index.php?action=shop");
                 exit;
             }
         
@@ -270,7 +270,7 @@ class Controller
         }
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header("Location: index.php?action=home");
+            header("Location: index.php?action=shop");
             exit;
         }
 
@@ -280,7 +280,7 @@ class Controller
 
         if (!is_numeric($productId) || !is_numeric($price)) {
             $_SESSION['order_errors'] = ["Invalid order data"];
-            header("Location: index.php?action=home");
+            header("Location: index.php?action=shop");
             exit;
         }
 
@@ -298,7 +298,7 @@ class Controller
         }
 
         $_SESSION['order_errors'] = ["Order failed. Try again."];
-        header("Location: index.php?action=home");
+        header("Location: index.php?action=shop");
         exit;
     }
 

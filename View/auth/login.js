@@ -1,9 +1,3 @@
-/*
-/ fix error, check all naming follow naming guidelines, add invis uninvis button to password /peak feature
-/ make states only update when unselecting boxes
-/ add sanity elements htmlentities
-*/
-
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
@@ -11,44 +5,49 @@ class LoginForm extends React.Component {
         this.state = {
             email: "",
             password: "",
+            captchaAnswer: "",
 
             emailError: "",
-            passwordErorr: "",
+            passwordError: "",
+            captchaError: "",
 
             formMessage: "",
+            isSubmitting: false,
             serverErrors: window.loginErrors || [],
 
             touched: {
                 email: false,
                 password: false,
                 captchaAnswer: false
-            },
-
-            captchaAnswer: "",
-            captchaError: ""
+            }
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleBlur = this.handleBlur.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.runValidation = this.runValidation.bind(this);
+        this.validateAllFields = this.validateAllFields.bind(this);
         this.getInputClass = this.getInputClass.bind(this);
         this.getButtonClass = this.getButtonClass.bind(this);
     }
 
     validateEmail(value) {
-        if (value.trim() === "") return "Email is required";
-        if (!/^[\w.-]+@([\w-]+\.)+[\w-]{2,}$/.test(value)) return "Invalid email";
+        const v = value.trim();
+
+        if (v === "") return "Email is required.";
+        if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(v)) {
+            return "Please enter a valid email address.";
+        }
+
         return "";
     }
 
     validatePassword(value) {
-        if (value.trim() === "") return "Password is required";
+        if (value.trim() === "") return "Password is required.";
         return "";
     }
 
     validateCaptcha(value) {
-        if (value.trim() === "") return "CAPTCHA is required";
+        if (value.trim() === "") return "CAPTCHA is required.";
         return "";
     }
 
@@ -65,43 +64,27 @@ class LoginForm extends React.Component {
     handleBlur(event) {
         const name = event.target.name;
 
-        this.setState(
-            (prev) => ({
-                touched: {
-                    ...prev.touched,
-                    [name]: true
-                }
-            }),
-            () => this.runValidation(name)
-        );
+        this.setState((prev) => ({
+            touched: {
+                ...prev.touched,
+                [name]: true
+            }
+        }));
     }
 
-    runValidation(name) {
-        const value = this.state[name];
-
-        if (name === "email") {
-            this.setState({ emailError: this.validateEmail(value) });
-        }
-
-        if (name === "password") {
-            this.setState({ passwordErorr: this.validatePassword(value) });
-        }
-
-        if (name === "captchaAnswer") {
-            this.setState({ captchaError: this.validateCaptcha(value) });
-        }
+    validateAllFields() {
+        return {
+            emailError: this.validateEmail(this.state.email),
+            passwordError: this.validatePassword(this.state.password),
+            captchaError: this.validateCaptcha(this.state.captchaAnswer)
+        };
     }
 
     handleSubmit(event) {
-        const emailError = this.validateEmail(this.state.email);
-        const passwordErorr = this.validatePassword(this.state.password);
-        const captchaError = this.validateCaptcha(this.state.captchaAnswer);
-
+        const errors = this.validateAllFields();
 
         this.setState({
-            emailError: emailError,
-            passwordErorr: passwordErorr,
-            captchaError: captchaError,
+            ...errors,
             touched: {
                 email: true,
                 password: true,
@@ -109,32 +92,30 @@ class LoginForm extends React.Component {
             }
         });
 
-        if (emailError !== "" || passwordErorr !== "" || captchaError !== "") {
+        const hasErrors = Object.values(errors).some((error) => error !== "");
+
+        if (hasErrors) {
             event.preventDefault();
-            this.setState({ formMessage: "Fix errors before logging in" });
+            this.setState({
+                formMessage: "Please complete the required login fields."
+            });
+            return;
         }
+
+        this.setState({
+            isSubmitting: true,
+            formMessage: ""
+        });
     }
 
     getInputClass(name, error) {
         if (!this.state.touched[name]) return "input-field";
         if (error !== "") return "input-field input-error";
-        return "input-field input-valid";
+        return "input-field";
     }
 
     getButtonClass() {
-        const hasErrors =
-        this.state.emailError !== "" ||
-        this.state.passwordErorr !== "" ||
-        this.state.captchaError !== "";
-
-       const allTouched =
-        this.state.touched.email &&
-        this.state.touched.password &&
-        this.state.touched.captchaAnswer;
-
-        return allTouched && !hasErrors
-            ? "Form-Button button-success"
-            : "Form-Button button-error";
+        return "Form-Button";
     }
 
     render() {
@@ -157,12 +138,15 @@ class LoginForm extends React.Component {
                         onSubmit={this.handleSubmit}
                         autoComplete="off"
                     >
+                        <input type="text" name="fakeuser" autoComplete="username" style={{ display: "none" }} tabIndex="-1" />
+                        <input type="password" name="fakepass" autoComplete="current-password" style={{ display: "none" }} tabIndex="-1" />
+
                         <div className="form-group">
                             <input
                                 className={this.getInputClass("email", this.state.emailError)}
                                 type="email"
                                 name="email"
-                                autoComplete="off"
+                                autoComplete="username"
                                 value={this.state.email}
                                 onChange={this.handleChange}
                                 onBlur={this.handleBlur}
@@ -171,13 +155,14 @@ class LoginForm extends React.Component {
                             />
                             <label className="floating-label">Email</label>
                         </div>
+
                         {this.state.touched.email && this.state.emailError && (
                             <div className="Error-Message">{this.state.emailError}</div>
                         )}
 
                         <div className="form-group">
                             <input
-                                className={this.getInputClass("password", this.state.passwordErorr)}
+                                className={this.getInputClass("password", this.state.passwordError)}
                                 type="password"
                                 name="password"
                                 autoComplete="current-password"
@@ -189,42 +174,46 @@ class LoginForm extends React.Component {
                             />
                             <label className="floating-label">Password</label>
                         </div>
-                        {this.state.touched.password && this.state.passwordErorr && (
-                            <div className="Error-Message">{this.state.passwordErorr}</div>
+
+                        {this.state.touched.password && this.state.passwordError && (
+                            <div className="Error-Message">{this.state.passwordError}</div>
                         )}
+
                         <div className="captcha-box">
-                                {window.loginCaptchaImage && (
-                                    <img
-                                        className="captcha-image"
-                                        src={"View/auth/CaptchaImages/" + window.loginCaptchaImage}
-                                        alt="CAPTCHA verification"
-                                    />
-                                )}
-                            </div>
-
-                            <div className="form-group">
-                                <input
-                                    className={this.getInputClass("captchaAnswer", this.state.captchaError)}
-                                    type="text"
-                                    name="captchaAnswer"
-                                    autoComplete="off"
-                                    value={this.state.captchaAnswer}
-                                    onChange={this.handleChange}
-                                    onBlur={this.handleBlur}
-                                    placeholder=" "
-                                    required
+                            {window.loginCaptchaImage && (
+                                <img
+                                    className="captcha-image"
+                                    src={"View/auth/CaptchaImages/" + window.loginCaptchaImage}
+                                    alt="CAPTCHA verification"
                                 />
-                                <label className="floating-label">Enter CAPTCHA</label>
-                            </div>
-
-
-                            
-
-                            {this.state.touched.captchaAnswer && this.state.captchaError && (
-                                <div className="Error-Message">{this.state.captchaError}</div>
                             )}
-                        <button type="submit" className={this.getButtonClass()}>
-                            Login
+                        </div>
+
+                        <div className="form-group">
+                            <input
+                                className={this.getInputClass("captchaAnswer", this.state.captchaError)}
+                                type="text"
+                                name="captchaAnswer"
+                                autoComplete="off"
+                                value={this.state.captchaAnswer}
+                                onChange={this.handleChange}
+                                onBlur={this.handleBlur}
+                                placeholder=" "
+                                required
+                            />
+                            <label className="floating-label">Enter CAPTCHA</label>
+                        </div>
+
+                        {this.state.touched.captchaAnswer && this.state.captchaError && (
+                            <div className="Error-Message">{this.state.captchaError}</div>
+                        )}
+
+                        <button
+                            type="submit"
+                            className={this.getButtonClass()}
+                            disabled={this.state.isSubmitting}
+                        >
+                            {this.state.isSubmitting ? "Logging in..." : "Login"}
                         </button>
 
                         {this.state.formMessage && (

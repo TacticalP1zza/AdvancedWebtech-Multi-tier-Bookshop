@@ -1,6 +1,6 @@
 <div id="book-list" class="book-grid"></div>
 <div id="book-message"></div>
-<link rel="stylesheet" href="View/Pages/displaybooks.css">
+<link rel="stylesheet" href="View/Pages/shop.css">
 <script>
 window.loggedIn = <?php echo !empty($_SESSION['loggedIn']) ? 'true' : 'false'; ?>;
 var currentCategory = "";

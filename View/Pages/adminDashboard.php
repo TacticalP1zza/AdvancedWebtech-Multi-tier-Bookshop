@@ -20,7 +20,7 @@
             <p>See all customer orders & Search for orders with Restful API.</p>
         </a>
 
-        <a href="index.php?action=home" class="admin-card">
+        <a href="index.php?action=shop" class="admin-card">
             <h2>View Bookstore</h2>
             <p>Browse the public bookstore page as an administrator.</p>
         </a>
