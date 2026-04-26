@@ -140,6 +140,14 @@
         height: 20rem;
     }
 }
+/*To prevent Lighhouse error*/  
+.shop-page {
+    min-height: calc(100vh - 8rem - 18rem);
+}
+
+.book-grid {
+    min-height: 45rem;
+}
 
 /* Large phone / small tablet */
 @media (max-width: 768px) {

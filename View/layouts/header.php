@@ -6,19 +6,18 @@
     <meta name="description" content="Idea Bookstore is an online bookstore offering children's and adult books including fiction, classics, comics, and crime thrillers." >
     <meta name="keywords" content="online bookstore, kids books, adult books, fiction, classic novels, comics, crime thriller">
     <meta name="author" content="22018575">
+    <meta name="robots" content="index, follow">
 
-    <title>Idea Bookstore</title>
+    <meta property="og:title" content="Idea Bookstore">
+    <meta property="og:description" content="Browse children's books, adult fiction, classics, comics, crime and thriller books online.">
+    <meta property="og:image" content="Public/Images/mews.webp">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="index.php?action=shop">
 
-    <script src="/AdvancedWebtech-Multi-tier-Bookshop/Dependencies/node_modules/react/umd/react.development.js"></script>
-    <script src="/AdvancedWebtech-Multi-tier-Bookshop/Dependencies/node_modules/react-dom/umd/react-dom.development.js"></script>
-    <script src="/AdvancedWebtech-Multi-tier-Bookshop/Dependencies/node_modules/@babel/standalone/babel.min.js"></script>
-    <!-- Below for lab computer above for personal -->
-    <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
-
+    <title>Idea Bookstore | Kids, Fiction, Classics & Crime Books Online</title>
     <link rel="stylesheet" href="Public/CSS/header.css">
     <link rel="stylesheet" href="Public/CSS/footer.css">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml">
 </head>
 
 <body>
@@ -29,10 +28,13 @@
         <div class="navbar-brand">
             <a href="index.php?action=shop" class="brand-link">
                 <span class="brand-logo-wrap">
-                    <img 
-                        class="brand-logo" 
-                        src="Public/Images/mews.png" 
-                        alt="Idea Bookstore logo"
+                <img 
+                    class="brand-logo" 
+                    src="Public/Images/mews.webp"
+                    width="84"
+                    height="84"
+                    alt="Idea Bookstore logo"
+                    fetchpriority="high"
                     >
                 </span>
 
@@ -56,9 +58,9 @@
         <div class="navbar-menu" id="navMenu">
             <ul class="navbar-links">
 
-                <li class="nav-dropdown">
+                <li class="nav-dropdown shop-only">
                     <a 
-                        href="#" 
+                        href="index.php?action=shop" 
                         class="nav-link nav-dropdown-trigger book-filter-link" 
                         data-category="Kids" 
                         data-subcategory=""
@@ -78,26 +80,26 @@
                     </a>
 
                     <div class="dropdown-panel">
-                        <a href="#" class="dropdown-item book-filter-link" data-category="Kids" data-subcategory="Infants">
+                        <a href="shop&category=Kids" class="dropdown-item book-filter-link" data-category="Kids" data-subcategory="Infants">
                             <span class="dropdown-title">Infants</span>
                             <span class="dropdown-desc">Early picture books and baby stories</span>
                         </a>
 
-                        <a href="#" class="dropdown-item book-filter-link" data-category="Kids" data-subcategory="Junior">
+                        <a href="index.php?action=shop" class="dropdown-item book-filter-link" data-category="Kids" data-subcategory="Junior">
                             <span class="dropdown-title">Junior</span>
                             <span class="dropdown-desc">KS1–KS2 style reads and learning books</span>
                         </a>
 
-                        <a href="#" class="dropdown-item book-filter-link" data-category="Kids" data-subcategory="Young">
+                        <a href="index.php?action=shop" class="dropdown-item book-filter-link" data-category="Kids" data-subcategory="Young">
                             <span class="dropdown-title">Young</span>
                             <span class="dropdown-desc">Young readers and teen-friendly titles</span>
                         </a>
                     </div>
                 </li>
 
-                <li class="nav-dropdown">
+                <li class="nav-dropdown shop-only">
                     <a 
-                        href="#" 
+                        href="index.php?action=shop" 
                         class="nav-link nav-dropdown-trigger book-filter-link" 
                         data-category="Adults" 
                         data-subcategory=""
@@ -117,22 +119,22 @@
                     </a>
 
                     <div class="dropdown-panel">
-                        <a href="#" class="dropdown-item book-filter-link" data-category="Adults" data-subcategory="Classic Novels">
+                        <a href="index.php?action=shop" class="dropdown-item book-filter-link" data-category="Adults" data-subcategory="Classic Novels">
                             <span class="dropdown-title">Classic Novels</span>
                             <span class="dropdown-desc">Timeless literature and essential reads</span>
                         </a>
 
-                        <a href="#" class="dropdown-item book-filter-link" data-category="Adults" data-subcategory="Fiction">
+                        <a href="index.php?action=shop" class="dropdown-item book-filter-link" data-category="Adults" data-subcategory="Fiction">
                             <span class="dropdown-title">Fiction</span>
                             <span class="dropdown-desc">Modern fiction and bestselling stories</span>
                         </a>
 
-                        <a href="#" class="dropdown-item book-filter-link" data-category="Adults" data-subcategory="Comic">
+                        <a href="index.php?action=shop" class="dropdown-item book-filter-link" data-category="Adults" data-subcategory="Comic">
                             <span class="dropdown-title">Comic</span>
                             <span class="dropdown-desc">Graphic novels and illustrated stories</span>
                         </a>
 
-                        <a href="#" class="dropdown-item book-filter-link" data-category="Adults" data-subcategory="Crime and Thriller">
+                        <a href="index.php?action=shop" class="dropdown-item book-filter-link" data-category="Adults" data-subcategory="Crime and Thriller">
                             <span class="dropdown-title">Crime &amp; Thriller</span>
                             <span class="dropdown-desc">Mystery, suspense, and detective novels</span>
                         </a>
@@ -155,7 +157,7 @@
                 </li>
 
                 <li class="nav-dropdown">
-                    <a href="#" class="nav-link nav-dropdown-trigger">
+                    <a href="index.php?action=shop" class="nav-link nav-dropdown-trigger">
                         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                             <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="currentColor"></path>
                             <path d="M12 14C7.58172 14 4 17.134 4 21H20C20 17.134 16.4183 14 12 14Z" fill="currentColor"></path>
@@ -231,34 +233,4 @@
     </nav>
 </header>
 
-<script>
-    const navToggle = document.getElementById("navToggle");
-    const navMenu = document.getElementById("navMenu");
-
-    if (navToggle && navMenu) {
-        navToggle.addEventListener("click", function () {
-            navMenu.classList.toggle("active");
-
-            const expanded = navToggle.getAttribute("aria-expanded") === "true";
-            navToggle.setAttribute("aria-expanded", String(!expanded));
-        });
-    }
-
-    (function () {
-        const params = new URLSearchParams(window.location.search);
-        const action = params.get("action");
-
-        const isHome = !action;
-        const isShop = action === "shop";
-
-        const dropdowns = document.querySelectorAll(".nav-dropdown");
-
-        dropdowns.forEach((dropdown, index) => {
-            if (index === 0 || index === 1) {
-                if (!(isHome || isShop)) {
-                    dropdown.style.display = "none";
-                }
-            }
-        });
-    })();
-</script>
+<script src="Public/JS/header.js"></script>

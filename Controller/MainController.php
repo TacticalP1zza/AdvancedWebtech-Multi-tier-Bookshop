@@ -26,6 +26,9 @@ class MainController
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
+        header("X-Content-Type-Options: nosniff");
+        header("X-Frame-Options: SAMEORIGIN");
+        header("Referrer-Policy: strict-origin-when-cross-origin");
     }
 
     /**
@@ -77,8 +80,8 @@ class MainController
         if (!isset($source[$key]) || is_array($source[$key])) {
             return '';
         }
-
-        return trim($source[$key]);
+    
+        return trim((string) $source[$key]);
     }
 
     /**
@@ -100,7 +103,11 @@ class MainController
         return !empty($_SESSION['isLoggedIn'])
             && $_SESSION['isLoggedIn'] === true
             && !empty($_SESSION['sessionId'])
-            && $_SESSION['sessionId'] === session_id();
+            && $_SESSION['sessionId'] === session_id()
+            && !empty($_SESSION['sessionIp'])
+            && $_SESSION['sessionIp'] === $_SERVER['REMOTE_ADDR']
+            && isset($_SESSION['sessionUserAgent'])
+            && $_SESSION['sessionUserAgent'] === ($_SERVER['HTTP_USER_AGENT'] ?? '');
     }
 
     /**

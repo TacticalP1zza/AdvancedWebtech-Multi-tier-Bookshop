@@ -232,6 +232,9 @@ class AuthenticationController extends MainController
         }
 
         session_regenerate_id(true);
+        
+        $_SESSION['sessionIp'] = $_SERVER['REMOTE_ADDR'];
+        $_SESSION['sessionUserAgent'] = $_SERVER['HTTP_USER_AGENT'] ?? '';
 
         $_SESSION['sessionId'] = session_id();
         $_SESSION['userId'] = (int) $user['id'];
