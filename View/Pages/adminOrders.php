@@ -1,61 +1,59 @@
-<link rel="stylesheet" href="View/Pages/adminOrders.css">
+<link rel="stylesheet" href="Public/CSS/adminOrders.css">
 
-<div class="admin-page">
+<main class="admin-page">
     <h1>Manager Orders</h1>
 
-    <div class="admin-top-row">
-    <div class="rest-api-panel">
-        <h2>REST Order Lookup</h2>
-        <p class="panel-tip">Enter an order ID to retrieve one order through the RESTful API.</p>
+    <section class="admin-top-row" aria-label="Admin order tools">
+        <div class="rest-api-panel">
+            <h2>REST Order Lookup</h2>
+            <p class="panel-tip">Enter an order ID to retrieve one order through the RESTful API.</p>
 
-        <div class="rest-api-form">
-            <input type="number" id="restOrderId" placeholder="Enter Order ID">
-            <button type="button" id="restLookupButton">Lookup Order</button>
-            <button type="button" id="resetOrdersButton">Reset</button>
-        </div>
+            <div class="rest-api-form">
+                <label for="restOrderId">Order ID</label>
+                <input type="number" id="restOrderId" placeholder="Enter Order ID">
 
-        <div id="restApiResult" class="rest-api-result"></div>
-    </div>
-
-    <div class="admin-filter-panel">
-        <h2>Filter Orders by Book Category</h2>
-
-        <div class="admin-filter-row">
-            <div class="admin-filter-group">
-                <label for="mainCategory">Main Category</label>
-                <select id="mainCategory">
-                    <option value="">All Categories</option>
-                    <option value="Kids">Kids</option>
-                    <option value="Adults">Adults</option>
-                </select>
+                <button type="button" id="restLookupButton">Lookup Order</button>
+                <button type="button" id="resetOrdersButton">Reset</button>
             </div>
 
-            <div class="admin-filter-group">
-                <label for="subCategory">Subcategory</label>
-                <select id="subCategory">
-                    <option value="">All Subcategories</option>
-                </select>
+            <div id="restApiResult" class="rest-api-result" aria-live="polite"></div>
+        </div>
+
+        <div class="admin-filter-panel">
+            <h2>Filter Orders by Book Category</h2>
+
+            <div class="admin-filter-row">
+                <div class="admin-filter-group">
+                    <label for="mainCategory">Main Category</label>
+                    <select id="mainCategory">
+                        <option value="">All Categories</option>
+                        <option value="Kids">Kids</option>
+                        <option value="Adults">Adults</option>
+                    </select>
+                </div>
+
+                <div class="admin-filter-group">
+                    <label for="subCategory">Subcategory</label>
+                    <select id="subCategory">
+                        <option value="">All Subcategories</option>
+                    </select>
+                </div>
             </div>
         </div>
-    </div>
-
-</div>
-    <?php
-    $model = new Model();
-    $orders = $model->getAllOrders();
-    ?>
+    </section>
 
     <?php if (empty($orders)): ?>
         <p class="admin-empty">No orders found.</p>
     <?php else: ?>
 
-        <div class="admin-orders-grid">
+        <section class="admin-orders-grid" aria-label="Customer orders">
             <?php foreach ($orders as $order): ?>
-                <div class="admin-order-card"
+                <article
+                    class="admin-order-card"
                     data-order-id="<?php echo htmlentities($order['id'], ENT_QUOTES, 'UTF-8'); ?>"
                     data-category="<?php echo htmlentities($order['category'], ENT_QUOTES, 'UTF-8'); ?>"
-                    data-subcategory="<?php echo htmlentities($order['subcategory'], ENT_QUOTES, 'UTF-8'); ?>">
-
+                    data-subcategory="<?php echo htmlentities($order['subcategory'], ENT_QUOTES, 'UTF-8'); ?>"
+                >
                     <h3><?php echo htmlentities($order['title'], ENT_QUOTES, 'UTF-8'); ?></h3>
 
                     <p><strong>Order ID:</strong> <?php echo htmlentities($order['id'], ENT_QUOTES, 'UTF-8'); ?></p>
@@ -67,14 +65,14 @@
                     <p><strong>Quantity:</strong> <?php echo htmlentities($order['quantity'], ENT_QUOTES, 'UTF-8'); ?></p>
                     <p><strong>Price:</strong> £<?php echo htmlentities($order['price'], ENT_QUOTES, 'UTF-8'); ?></p>
                     <p><strong>Date:</strong> <?php echo htmlentities($order['order_date'], ENT_QUOTES, 'UTF-8'); ?></p>
-                </div>
+                </article>
             <?php endforeach; ?>
-        </div>
+        </section>
 
     <?php endif; ?>
 
     <a href="index.php?action=adminDashboard" class="order-button">Back</a>
-</div>
+</main>
 
 <script>
 const mainCategory = document.getElementById("mainCategory");
@@ -99,10 +97,10 @@ mainCategory.addEventListener("change", function () {
     subCategory.innerHTML = '<option value="">All Subcategories</option>';
 
     if (subcategories[selectedCategory]) {
-        subcategories[selectedCategory].forEach(function (item) {
+        subcategories[selectedCategory].forEach(function (subcategoryName) {
             const option = document.createElement("option");
-            option.value = item;
-            option.textContent = item;
+            option.value = subcategoryName;
+            option.textContent = subcategoryName;
             subCategory.appendChild(option);
         });
     }
@@ -129,25 +127,25 @@ restLookupButton.addEventListener("click", function () {
 
     restApiResult.innerHTML = "<div class='admin-success'>Loading order data...</div>";
 
-    const httpxml = new XMLHttpRequest();
+    const request = new XMLHttpRequest();
 
-    httpxml.onreadystatechange = function () {
-        if (httpxml.readyState === 4) {
-            if (httpxml.status === 200) {
+    request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+            if (request.status === 200) {
                 try {
-                    const data = JSON.parse(httpxml.responseText);
+                    const response = JSON.parse(request.responseText);
 
-                    if (!data.success) {
+                    if (!response.success) {
                         hideAllOrders();
-                        restApiResult.innerHTML = "<div class='admin-error'>" + escapeHtml(data.message) + "</div>";
+                        restApiResult.innerHTML = "<div class='admin-error'>" + escapeHtml(response.message) + "</div>";
                         return;
                     }
 
-                    showOnlyOrder(data.order.id);
+                    showOnlyOrder(response.data.id);
 
                     restApiResult.innerHTML =
-                        "<div class='admin-success'>REST API returned order #" + escapeHtml(data.order.id) + " successfully.</div>";
-                } catch (e) {
+                        "<div class='admin-success'>REST API returned order #" + escapeHtml(response.data.id) + " successfully.</div>";
+                } catch (error) {
                     hideAllOrders();
                     restApiResult.innerHTML = "<div class='admin-error'>Invalid API response.</div>";
                 }
@@ -158,8 +156,8 @@ restLookupButton.addEventListener("click", function () {
         }
     };
 
-    httpxml.open("GET", "index.php?action=getOrderApi&id=" + encodeURIComponent(orderId), true);
-    httpxml.send(null);
+    request.open("GET", "index.php?action=fetchOrderById&id=" + encodeURIComponent(orderId), true);
+    request.send(null);
 });
 
 resetOrdersButton.addEventListener("click", function () {
@@ -182,10 +180,10 @@ function filterOrders() {
         const cardCategory = card.getAttribute("data-category");
         const cardSubcategory = card.getAttribute("data-subcategory");
 
-        const categoryMatch = selectedCategory === "" || cardCategory === selectedCategory;
-        const subcategoryMatch = selectedSubcategory === "" || cardSubcategory === selectedSubcategory;
+        const categoryMatches = selectedCategory === "" || cardCategory === selectedCategory;
+        const subcategoryMatches = selectedSubcategory === "" || cardSubcategory === selectedSubcategory;
 
-        card.style.display = categoryMatch && subcategoryMatch ? "block" : "none";
+        card.style.display = categoryMatches && subcategoryMatches ? "block" : "none";
     });
 }
 

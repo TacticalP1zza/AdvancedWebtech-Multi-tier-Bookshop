@@ -1,3 +1,20 @@
+/**
+ * RegistrationForm.js
+ *
+ * Purpose:
+ * - Handles client-side registration validation using React.
+ * - Submits valid registration requests to AuthenticationController::handleRegister().
+ *
+ * Design:
+ * - Uses controlled React inputs.
+ * - Uses onBlur email availability checking to avoid excessive AJAX calls.
+ *
+ * Security:
+ * - Client-side validation improves usability only.
+ * - Final validation is still performed server-side in AuthenticationController.
+ * - Email availability uses encodeURIComponent() to safely encode AJAX parameters.
+ */
+
 class RegistrationForm extends React.Component {
     constructor(props) {
         super(props);
@@ -46,12 +63,21 @@ class RegistrationForm extends React.Component {
     }
 
     validateUserName(value) {
-        const v = value.trim();
+        const userName = value.trim();
 
-        if (v === "") return "Username is required.";
-        if (v.length < 3) return "Username must be at least 3 characters.";
-        if (v.length > 30) return "Username must be less than 30 characters.";
-        if (!/^[A-Za-z0-9_ ]+$/.test(v)) {
+        if (userName === "") {
+            return "Username is required.";
+        }
+
+        if (userName.length < 3) {
+            return "Username must be at least 3 characters.";
+        }
+
+        if (userName.length > 30) {
+            return "Username must be less than 30 characters.";
+        }
+
+        if (!/^[A-Za-z0-9_ ]+$/.test(userName)) {
             return "Username can only contain letters, numbers, spaces, and underscores.";
         }
 
@@ -59,20 +85,31 @@ class RegistrationForm extends React.Component {
     }
 
     validatePhone(value) {
-        const v = value.trim();
+        const phone = value.trim();
 
-        if (v === "") return "Phone number is required.";
-        if (!/^[0-9]+$/.test(v)) return "Phone number must contain numbers only.";
-        if (v.length !== 10) return "Phone number must be 10 digits, for example 7123456789.";
+        if (phone === "") {
+            return "Phone number is required.";
+        }
+
+        if (!/^[0-9]+$/.test(phone)) {
+            return "Phone number must contain numbers only.";
+        }
+
+        if (!/^[0-9]{10}$/.test(phone)) {
+            return "Phone number must be 10.";
+        }
 
         return "";
     }
 
     validateEmail(value) {
-        const v = value.trim();
+        const email = value.trim();
 
-        if (v === "") return "Email is required.";
-        if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(v)) {
+        if (email === "") {
+            return "Email is required.";
+        }
+
+        if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(email)) {
             return "Please enter a valid email address.";
         }
 
@@ -80,30 +117,57 @@ class RegistrationForm extends React.Component {
     }
 
     validateConfirmEmail(value) {
-        const v = value.trim();
+        const confirmEmail = value.trim();
 
-        if (v === "") return "Please confirm your email address.";
-        if (v !== this.state.email.trim()) return "Email addresses must match.";
+        if (confirmEmail === "") {
+            return "Please confirm your email address.";
+        }
+
+        if (confirmEmail !== this.state.email.trim()) {
+            return "Email addresses must match.";
+        }
 
         return "";
     }
 
     validatePassword(value) {
-        const v = value;
+        const password = value;
 
-        if (v.trim() === "") return "Password is required.";
-        if (v.length < 8) return "Password must be at least 8 characters.";
-        if (!/[A-Z]/.test(v)) return "Password must include at least one uppercase letter.";
-        if (!/[a-z]/.test(v)) return "Password must include at least one lowercase letter.";
-        if (!/[0-9]/.test(v)) return "Password must include at least one number.";
-        if (!/[#?!@$%^&*-]/.test(v)) return "Password must include at least one special character.";
+        if (password.trim() === "") {
+            return "Password is required.";
+        }
+
+        if (password.length < 8) {
+            return "Password must be at least 8 characters.";
+        }
+
+        if (!/[A-Z]/.test(password)) {
+            return "Password must include at least one uppercase letter.";
+        }
+
+        if (!/[a-z]/.test(password)) {
+            return "Password must include at least one lowercase letter.";
+        }
+
+        if (!/[0-9]/.test(password)) {
+            return "Password must include at least one number.";
+        }
+
+        if (!/[\W_]/.test(password)) {
+            return "Password must include at least one special character.";
+        }
 
         return "";
     }
 
     validateConfirmPassword(value) {
-        if (value.trim() === "") return "Please confirm your password.";
-        if (value !== this.state.password) return "Passwords must match.";
+        if (value.trim() === "") {
+            return "Please confirm your password.";
+        }
+
+        if (value !== this.state.password) {
+            return "Passwords must match.";
+        }
 
         return "";
     }
@@ -118,10 +182,13 @@ class RegistrationForm extends React.Component {
 
         this.setState({ emailAvailability: "Checking email..." });
 
-        fetch("index.php?action=checkEmailExistController&email=" + encodeURIComponent(email.trim()))
-            .then((res) => {
-                if (!res.ok) throw new Error("Network error");
-                return res.json();
+        fetch("index.php?action=checkEmailExists&email=" + encodeURIComponent(email.trim()))
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network error");
+                }
+
+                return response.json();
             })
             .then((data) => {
                 this.setState({
@@ -129,12 +196,14 @@ class RegistrationForm extends React.Component {
                 });
             })
             .catch(() => {
-                this.setState({ emailAvailability: "Error checking email." });
+                this.setState({
+                    emailAvailability: "Error checking email."
+                });
             });
     }
 
-    handleChange(e) {
-        const { name, value } = e.target;
+    handleChange(event) {
+        const { name, value } = event.target;
 
         this.setState(
             {
@@ -145,9 +214,9 @@ class RegistrationForm extends React.Component {
             },
             () => {
                 this.setState(
-                    (prev) => ({
+                    (previousState) => ({
                         touched: {
-                            ...prev.touched,
+                            ...previousState.touched,
                             [name]: true
                         }
                     }),
@@ -159,40 +228,40 @@ class RegistrationForm extends React.Component {
         );
     }
 
-    handleBlur(e) {
-        const name = e.target.name;
+    handleBlur(event) {
+        const fieldName = event.target.name;
 
         this.setState(
-            (prev) => ({
+            (previousState) => ({
                 touched: {
-                    ...prev.touched,
-                    [name]: true
+                    ...previousState.touched,
+                    [fieldName]: true
                 }
             }),
             () => {
-                this.runValidation(name);
+                this.runValidation(fieldName);
 
-                if (name === "email") {
+                if (fieldName === "email") {
                     this.checkEmailAvailability(this.state.email);
                 }
             }
         );
     }
 
-    runValidation(name) {
-        if (name === "userName") {
+    runValidation(fieldName) {
+        if (fieldName === "userName") {
             this.setState({
                 userNameError: this.validateUserName(this.state.userName)
             });
         }
 
-        if (name === "phone") {
+        if (fieldName === "phone") {
             this.setState({
                 phoneError: this.validatePhone(this.state.phone)
             });
         }
 
-        if (name === "email") {
+        if (fieldName === "email") {
             this.setState({
                 emailError: this.validateEmail(this.state.email),
                 emailAvailability: "",
@@ -202,13 +271,13 @@ class RegistrationForm extends React.Component {
             });
         }
 
-        if (name === "confirmEmail") {
+        if (fieldName === "confirmEmail") {
             this.setState({
                 confirmEmailError: this.validateConfirmEmail(this.state.confirmEmail)
             });
         }
 
-        if (name === "password") {
+        if (fieldName === "password") {
             this.setState({
                 passwordError: this.validatePassword(this.state.password),
                 confirmPasswordError: this.state.touched.confirmPassword
@@ -217,7 +286,7 @@ class RegistrationForm extends React.Component {
             });
         }
 
-        if (name === "confirmPassword") {
+        if (fieldName === "confirmPassword") {
             this.setState({
                 confirmPasswordError: this.validateConfirmPassword(this.state.confirmPassword)
             });
@@ -238,7 +307,9 @@ class RegistrationForm extends React.Component {
     isFormValid() {
         const errors = this.validateAllFields();
 
-        const hasErrors = Object.values(errors).some((error) => error !== "");
+        const hasErrors = Object.values(errors).some((errorMessage) => {
+            return errorMessage !== "";
+        });
 
         const emailInvalid =
             this.state.emailAvailability === "Email already in use." ||
@@ -248,11 +319,11 @@ class RegistrationForm extends React.Component {
         return !hasErrors && !emailInvalid;
     }
 
-    handleSubmit(e) {
-        const errors = this.validateAllFields();
+    handleSubmit(event) {
+        const validationErrors = this.validateAllFields();
 
         this.setState({
-            ...errors,
+            ...validationErrors,
             touched: {
                 userName: true,
                 phone: true,
@@ -263,7 +334,9 @@ class RegistrationForm extends React.Component {
             }
         });
 
-        const hasErrors = Object.values(errors).some((error) => error !== "");
+        const hasErrors = Object.values(validationErrors).some((errorMessage) => {
+            return errorMessage !== "";
+        });
 
         const emailInvalid =
             this.state.emailAvailability === "Email already in use." ||
@@ -271,22 +344,30 @@ class RegistrationForm extends React.Component {
             this.state.emailAvailability === "Checking email...";
 
         if (hasErrors || emailInvalid) {
-            e.preventDefault();
+            event.preventDefault();
+
             this.setState({
                 formMessage: "Please fix the highlighted errors before submitting."
             });
+
             return;
         }
 
-        this.setState({ isSubmitting: true });
+        this.setState({
+            isSubmitting: true
+        });
     }
 
-    getInputClass(name, error) {
-        if (!this.state.touched[name]) return "input-field";
+    getInputClass(fieldName, errorMessage) {
+        if (!this.state.touched[fieldName]) {
+            return "input-field";
+        }
 
-        if (error !== "") return "input-field input-error";
+        if (errorMessage !== "") {
+            return "input-field input-error";
+        }
 
-        if (name === "email") {
+        if (fieldName === "email") {
             if (this.state.emailAvailability === "Email already in use.") {
                 return "input-field input-error";
             }
@@ -307,6 +388,20 @@ class RegistrationForm extends React.Component {
             : "Form-Button button-error";
     }
 
+    renderServerErrors() {
+        if (this.state.serverErrors.length === 0) {
+            return null;
+        }
+
+        return (
+            <div className="Error-Message">
+                {this.state.serverErrors.map((errorMessage, index) => (
+                    <div key={index}>{errorMessage}</div>
+                ))}
+            </div>
+        );
+    }
+
     render() {
         const emailMessageClass =
             this.state.emailAvailability === "Email available."
@@ -315,32 +410,49 @@ class RegistrationForm extends React.Component {
 
         return (
             <div className="container">
-                <div className="registeration-container">
+                <div className="registration-container">
                     <h1 className="header">Registration Form</h1>
 
                     {this.state.serverSuccess && (
                         <div className="Success-Message">{this.state.serverSuccess}</div>
                     )}
 
-                    {this.state.serverErrors.length > 0 && (
-                        <div className="Error-Message">
-                            {this.state.serverErrors.map((error, index) => (
-                                <div key={index}>{error}</div>
-                            ))}
-                        </div>
-                    )}
+                    {this.renderServerErrors()}
 
                     <form
                         method="POST"
-                        action="index.php?action=registerSubmit"
+                        action="index.php?action=handleRegister"
                         onSubmit={this.handleSubmit}
                         autoComplete="off"
                     >
-                        <input type="text" name="fakeuser" autoComplete="username" style={{ display: "none" }} tabIndex="-1" />
-                        <input type="password" name="fakepass" autoComplete="current-password" style={{ display: "none" }} tabIndex="-1" />
+                        <input
+                            type="text"
+                            name="fakeuser"
+                            autoComplete="username"
+                            style={{ display: "none" }}
+                            tabIndex="-1"
+                        />
+
+                        <input
+                            type="password"
+                            name="fakepass"
+                            autoComplete="current-password"
+                            style={{ display: "none" }}
+                            tabIndex="-1"
+                        />
 
                         <div className="form-group">
-                            <input className={this.getInputClass("userName", this.state.userNameError)} type="text" name="userName" value={this.state.userName} onChange={this.handleChange} onBlur={this.handleBlur} placeholder=" " autoComplete="off" required />
+                            <input
+                                className={this.getInputClass("userName", this.state.userNameError)}
+                                type="text"
+                                name="userName"
+                                value={this.state.userName}
+                                onChange={this.handleChange}
+                                onBlur={this.handleBlur}
+                                placeholder=" "
+                                autoComplete="off"
+                                required
+                            />
                             <label className="floating-label">Username</label>
                         </div>
 
@@ -349,7 +461,17 @@ class RegistrationForm extends React.Component {
                         )}
 
                         <div className="form-group">
-                            <input className={this.getInputClass("phone", this.state.phoneError)} type="text" name="phone" value={this.state.phone} onChange={this.handleChange} onBlur={this.handleBlur} placeholder=" " autoComplete="off" required />
+                            <input
+                                className={this.getInputClass("phone", this.state.phoneError)}
+                                type="text"
+                                name="phone"
+                                value={this.state.phone}
+                                onChange={this.handleChange}
+                                onBlur={this.handleBlur}
+                                placeholder=" "
+                                autoComplete="off"
+                                required
+                            />
                             <label className="floating-label">Phone</label>
                         </div>
 
@@ -358,7 +480,17 @@ class RegistrationForm extends React.Component {
                         )}
 
                         <div className="form-group">
-                            <input className={this.getInputClass("email", this.state.emailError)} type="text" name="email" value={this.state.email} onChange={this.handleChange} onBlur={this.handleBlur} placeholder=" " autoComplete="off" required />
+                            <input
+                                className={this.getInputClass("email", this.state.emailError)}
+                                type="text"
+                                name="email"
+                                value={this.state.email}
+                                onChange={this.handleChange}
+                                onBlur={this.handleBlur}
+                                placeholder=" "
+                                autoComplete="off"
+                                required
+                            />
                             <label className="floating-label">Email</label>
                         </div>
 
@@ -371,7 +503,17 @@ class RegistrationForm extends React.Component {
                         )}
 
                         <div className="form-group">
-                            <input className={this.getInputClass("confirmEmail", this.state.confirmEmailError)} type="text" name="confirmEmail" value={this.state.confirmEmail} onChange={this.handleChange} onBlur={this.handleBlur} placeholder=" " autoComplete="off" required />
+                            <input
+                                className={this.getInputClass("confirmEmail", this.state.confirmEmailError)}
+                                type="text"
+                                name="confirmEmail"
+                                value={this.state.confirmEmail}
+                                onChange={this.handleChange}
+                                onBlur={this.handleBlur}
+                                placeholder=" "
+                                autoComplete="off"
+                                required
+                            />
                             <label className="floating-label">Confirm Email</label>
                         </div>
 
@@ -380,7 +522,17 @@ class RegistrationForm extends React.Component {
                         )}
 
                         <div className="form-group">
-                            <input className={this.getInputClass("password", this.state.passwordError)} type="password" name="password" value={this.state.password} onChange={this.handleChange} onBlur={this.handleBlur} placeholder=" " autoComplete="new-password" required />
+                            <input
+                                className={this.getInputClass("password", this.state.passwordError)}
+                                type="password"
+                                name="password"
+                                value={this.state.password}
+                                onChange={this.handleChange}
+                                onBlur={this.handleBlur}
+                                placeholder=" "
+                                autoComplete="new-password"
+                                required
+                            />
                             <label className="floating-label">Password</label>
                         </div>
 
@@ -389,7 +541,17 @@ class RegistrationForm extends React.Component {
                         )}
 
                         <div className="form-group">
-                            <input className={this.getInputClass("confirmPassword", this.state.confirmPasswordError)} type="password" name="confirmPassword" value={this.state.confirmPassword} onChange={this.handleChange} onBlur={this.handleBlur} placeholder=" " autoComplete="new-password" required />
+                            <input
+                                className={this.getInputClass("confirmPassword", this.state.confirmPasswordError)}
+                                type="password"
+                                name="confirmPassword"
+                                value={this.state.confirmPassword}
+                                onChange={this.handleChange}
+                                onBlur={this.handleBlur}
+                                placeholder=" "
+                                autoComplete="new-password"
+                                required
+                            />
                             <label className="floating-label">Confirm Password</label>
                         </div>
 
@@ -415,4 +577,7 @@ class RegistrationForm extends React.Component {
     }
 }
 
-ReactDOM.render(<RegistrationForm />, document.getElementById("register-root"));
+ReactDOM.render(
+    <RegistrationForm />,
+    document.getElementById("register-root")
+);

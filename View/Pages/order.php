@@ -1,5 +1,5 @@
 <?php
-$product = $_SESSION['order_product'] ?? null;
+$product = $_SESSION['orderProduct'] ?? null;
 
 if (!$product) {
     header("Location: index.php?action=shop");
@@ -7,11 +7,12 @@ if (!$product) {
 }
 ?>
 
-<link rel="stylesheet" href="View/Pages/order.css">
+<link rel="stylesheet" href="Public/CSS/order.css">
 
-<div class="orders-page">
-    <div class="order-card">
-    <h1>Confirm Order</h1>
+<main class="orders-page">
+    <article class="order-card">
+        <h1>Confirm Order</h1>
+
         <h2><?php echo htmlentities($product['title'], ENT_QUOTES, 'UTF-8'); ?></h2>
 
         <p><strong>Author:</strong> <?php echo htmlentities($product['author'], ENT_QUOTES, 'UTF-8'); ?></p>
@@ -25,12 +26,14 @@ if (!$product) {
         <p><strong>Email:</strong> <?php echo htmlentities($_SESSION['email'], ENT_QUOTES, 'UTF-8'); ?></p>
         <p><strong>Phone:</strong> <?php echo htmlentities($_SESSION['phone'], ENT_QUOTES, 'UTF-8'); ?></p>
 
-        <form method="POST" action="index.php?action=submitOrder">
-            <input type="hidden" name="product_id" value="<?php echo htmlentities($product['id'], ENT_QUOTES, 'UTF-8'); ?>">
-            <input type="hidden" name="price" value="<?php echo htmlentities($product['price'], ENT_QUOTES, 'UTF-8'); ?>">
-
+        <form method="POST" action="index.php?action=handleOrderSubmit">
+            <input 
+                type="hidden" 
+                name="product_id" 
+                value="<?php echo htmlentities($product['id'], ENT_QUOTES, 'UTF-8'); ?>"
+            >
             <button type="submit" class="order-button">Confirm Order</button>
             <a href="index.php?action=shop" class="continue-shopping">Cancel</a>
         </form>
-    </div>
-</div>
+    </article>
+</main>

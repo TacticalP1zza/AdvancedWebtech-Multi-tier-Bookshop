@@ -1,19 +1,15 @@
-<?php
-$orders = $this->model->getOrdersByAccountId($_SESSION['account_id']);
-?>
+<link rel="stylesheet" href="Public/CSS/orderHistory.css">
 
-<link rel="stylesheet" href="View/Pages/orderHistory.css">
-
-<div class="orders-page">
+<main class="orders-page">
     <h1>Order History</h1>
 
     <?php if (empty($orders)): ?>
         <p class="no-orders">You have not placed any orders yet.</p>
         <a class="continue-shopping" href="index.php?action=shop">Continue Shopping</a>
     <?php else: ?>
-        <div class="orders-grid">
+        <section class="orders-grid" aria-label="Customer order history">
             <?php foreach ($orders as $order): ?>
-                <div class="order-card">
+                <article class="order-card">
                     <h2><?php echo htmlentities($order['title'], ENT_QUOTES, 'UTF-8'); ?></h2>
 
                     <p><strong>Order ID:</strong> <?php echo htmlentities($order['id'], ENT_QUOTES, 'UTF-8'); ?></p>
@@ -24,10 +20,10 @@ $orders = $this->model->getOrdersByAccountId($_SESSION['account_id']);
                     <p><strong>Quantity:</strong> <?php echo htmlentities($order['quantity'], ENT_QUOTES, 'UTF-8'); ?></p>
                     <p><strong>Price:</strong> £<?php echo htmlentities($order['price'], ENT_QUOTES, 'UTF-8'); ?></p>
                     <p><strong>Ordered:</strong> <?php echo htmlentities($order['order_date'], ENT_QUOTES, 'UTF-8'); ?></p>
-                </div>
+                </article>
             <?php endforeach; ?>
-        </div>
+        </section>
 
         <a class="continue-shopping" href="index.php?action=shop">Continue Shopping</a>
     <?php endif; ?>
-</div>
+</main>

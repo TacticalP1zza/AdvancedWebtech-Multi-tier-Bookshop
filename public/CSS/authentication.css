@@ -40,7 +40,7 @@
 }
 
 #login-root .Login-container,
-#register-root .registeration-container {
+#register-root .registration-container {
     position: relative;
     background-color: var(--white);
     padding: 5rem 4.6rem;
@@ -215,7 +215,7 @@
     }
 
     #login-root .Login-container,
-    #register-root .registeration-container {
+    #register-root .registration-container {
         padding: 3.5rem 2.4rem;
     }
 

@@ -1,3 +1,20 @@
+/**
+ * LoginForm.js
+ *
+ * Purpose:
+ * - Handles client-side login form validation using React.
+ * - Submits valid login requests to AuthenticationController::handleLogin().
+ *
+ * Design:
+ * - Uses controlled React inputs.
+ * - Uses onBlur validation to avoid excessive validation while typing.
+ *
+ * Security:
+ * - Client-side validation improves usability only.
+ * - Final validation is still performed server-side in AuthenticationController.
+ * - CAPTCHA is displayed client-side but validated server-side.
+ */
+
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
@@ -13,6 +30,7 @@ class LoginForm extends React.Component {
 
             formMessage: "",
             isSubmitting: false,
+
             serverErrors: window.loginErrors || [],
 
             touched: {
@@ -27,27 +45,35 @@ class LoginForm extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.validateAllFields = this.validateAllFields.bind(this);
         this.getInputClass = this.getInputClass.bind(this);
-        this.getButtonClass = this.getButtonClass.bind(this);
     }
 
-    validateEmail(value) {
-        const v = value.trim();
+    validateEmail(emailValue) {
+        const email = emailValue.trim();
 
-        if (v === "") return "Email is required.";
-        if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(v)) {
+        if (email === "") {
+            return "Email is required.";
+        }
+
+        if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(email)) {
             return "Please enter a valid email address.";
         }
 
         return "";
     }
 
-    validatePassword(value) {
-        if (value.trim() === "") return "Password is required.";
+    validatePassword(passwordValue) {
+        if (passwordValue.trim() === "") {
+            return "Password is required.";
+        }
+
         return "";
     }
 
-    validateCaptcha(value) {
-        if (value.trim() === "") return "CAPTCHA is required.";
+    validateCaptcha(captchaValue) {
+        if (captchaValue.trim() === "") {
+            return "CAPTCHA is required.";
+        }
+
         return "";
     }
 
@@ -62,12 +88,12 @@ class LoginForm extends React.Component {
     }
 
     handleBlur(event) {
-        const name = event.target.name;
+        const fieldName = event.target.name;
 
-        this.setState((prev) => ({
+        this.setState((previousState) => ({
             touched: {
-                ...prev.touched,
-                [name]: true
+                ...previousState.touched,
+                [fieldName]: true
             }
         }));
     }
@@ -81,10 +107,10 @@ class LoginForm extends React.Component {
     }
 
     handleSubmit(event) {
-        const errors = this.validateAllFields();
+        const validationErrors = this.validateAllFields();
 
         this.setState({
-            ...errors,
+            ...validationErrors,
             touched: {
                 email: true,
                 password: true,
@@ -92,13 +118,17 @@ class LoginForm extends React.Component {
             }
         });
 
-        const hasErrors = Object.values(errors).some((error) => error !== "");
+        const hasErrors = Object.values(validationErrors).some((errorMessage) => {
+            return errorMessage !== "";
+        });
 
         if (hasErrors) {
             event.preventDefault();
+
             this.setState({
                 formMessage: "Please complete the required login fields."
             });
+
             return;
         }
 
@@ -108,14 +138,30 @@ class LoginForm extends React.Component {
         });
     }
 
-    getInputClass(name, error) {
-        if (!this.state.touched[name]) return "input-field";
-        if (error !== "") return "input-field input-error";
+    getInputClass(fieldName, errorMessage) {
+        if (!this.state.touched[fieldName]) {
+            return "input-field";
+        }
+
+        if (errorMessage !== "") {
+            return "input-field input-error";
+        }
+
         return "input-field";
     }
 
-    getButtonClass() {
-        return "Form-Button";
+    renderServerErrors() {
+        if (this.state.serverErrors.length === 0) {
+            return null;
+        }
+
+        return (
+            <div className="Error-Message">
+                {this.state.serverErrors.map((errorMessage, index) => (
+                    <div key={index}>{errorMessage}</div>
+                ))}
+            </div>
+        );
     }
 
     render() {
@@ -124,22 +170,29 @@ class LoginForm extends React.Component {
                 <div className="Login-container">
                     <h1 className="header">Login Form</h1>
 
-                    {this.state.serverErrors.length > 0 && (
-                        <div className="Error-Message">
-                            {this.state.serverErrors.map((error, index) => (
-                                <div key={index}>{error}</div>
-                            ))}
-                        </div>
-                    )}
+                    {this.renderServerErrors()}
 
                     <form
                         method="POST"
-                        action="index.php?action=loginSubmit"
+                        action="index.php?action=handleLogin"
                         onSubmit={this.handleSubmit}
                         autoComplete="off"
                     >
-                        <input type="text" name="fakeuser" autoComplete="username" style={{ display: "none" }} tabIndex="-1" />
-                        <input type="password" name="fakepass" autoComplete="current-password" style={{ display: "none" }} tabIndex="-1" />
+                        <input
+                            type="text"
+                            name="fakeuser"
+                            autoComplete="username"
+                            style={{ display: "none" }}
+                            tabIndex="-1"
+                        />
+
+                        <input
+                            type="password"
+                            name="fakepass"
+                            autoComplete="current-password"
+                            style={{ display: "none" }}
+                            tabIndex="-1"
+                        />
 
                         <div className="form-group">
                             <input
@@ -183,7 +236,7 @@ class LoginForm extends React.Component {
                             {window.loginCaptchaImage && (
                                 <img
                                     className="captcha-image"
-                                    src={"View/auth/CaptchaImages/" + window.loginCaptchaImage}
+                                    src={"Public/Images/CaptchaImages/" + window.loginCaptchaImage}
                                     alt="CAPTCHA verification"
                                 />
                             )}
@@ -210,7 +263,7 @@ class LoginForm extends React.Component {
 
                         <button
                             type="submit"
-                            className={this.getButtonClass()}
+                            className="Form-Button"
                             disabled={this.state.isSubmitting}
                         >
                             {this.state.isSubmitting ? "Logging in..." : "Login"}

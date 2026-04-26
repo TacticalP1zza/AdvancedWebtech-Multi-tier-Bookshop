@@ -1,28 +1,27 @@
+<link rel="stylesheet" href="Public/CSS/adminDashboard.css">
 
-
-<link rel="stylesheet" href="View/Pages/adminDashboard.css">
-
-<div class="admin-page">
+<main class="admin-page">
     <h1>Admin Dashboard</h1>
 
-    <?php if (!empty($_SESSION['order_errors'])): ?>
-        <div class="admin-error">
-            <?php foreach ($_SESSION['order_errors'] as $error): ?>
+    <?php if (!empty($_SESSION['orderErrors'])): ?>
+        <section class="admin-error" aria-label="Order error messages">
+            <?php foreach ($_SESSION['orderErrors'] as $error): ?>
                 <p><?php echo htmlentities($error, ENT_QUOTES, 'UTF-8'); ?></p>
             <?php endforeach; ?>
-        </div>
-        <?php unset($_SESSION['order_errors']); ?>
+        </section>
+
+        <?php unset($_SESSION['orderErrors']); ?>
     <?php endif; ?>
 
-    <div class="admin-grid">
+    <section class="admin-grid" aria-label="Admin actions">
         <a href="index.php?action=adminOrders" class="admin-card">
             <h2>View Orders</h2>
-            <p>See all customer orders & Search for orders with Restful API.</p>
+            <p>See all customer orders and search for orders using the RESTful API.</p>
         </a>
 
         <a href="index.php?action=shop" class="admin-card">
             <h2>View Bookstore</h2>
             <p>Browse the public bookstore page as an administrator.</p>
         </a>
-    </div>
-</div>
+    </section>
+</main>
