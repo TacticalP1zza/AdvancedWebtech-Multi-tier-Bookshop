@@ -1,10 +1,10 @@
-CREATE TABLE Accounts (
+CREATE TABLE accounts (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    userName VARCHAR(50) NOT NULL,
-    phone VARCHAR(10) NOT NULL,
+    user_name VARCHAR(50) NOT NULL,
+    phone VARCHAR(15) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    admin BOOLEAN DEFAULT FALSE
+    password_hash VARCHAR(255) NOT NULL,
+    is_admin BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE products (
@@ -16,7 +16,7 @@ CREATE TABLE products (
     category VARCHAR(100),
     subcategory VARCHAR(100),
     price DECIMAL(6,2) NOT NULL,
-    image VARCHAR(255),
+    image_url VARCHAR(255),
     description TEXT,
     stock INT DEFAULT 10
 );
@@ -29,28 +29,30 @@ CREATE TABLE orders (
     price DECIMAL(6,2) NOT NULL,
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (account_id) REFERENCES Accounts(id)
+    CONSTRAINT fk_orders_account
+        FOREIGN KEY (account_id) REFERENCES accounts(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
 
-    FOREIGN KEY (product_id) REFERENCES products(id)
+    CONSTRAINT fk_orders_product
+        FOREIGN KEY (product_id) REFERENCES products(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
-CREATE TABLE CaptchaImages (
+CREATE TABLE captcha_images (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    imageName VARCHAR(100) NOT NULL,
-    captchaText VARCHAR(20) NOT NULL
+    image_name VARCHAR(100) NOT NULL,
+    captcha_text VARCHAR(20) NOT NULL
 );
 
-INSERT INTO CaptchaImages (imageName, captchaText) VALUES
+INSERT INTO captcha_images (image_name, captcha_text) VALUES
 ('image1.jpg', 'Aeika'),
 ('image2.jpg', 'ecb4f'),
 ('image3.jpg', '7PLBJ8'),
 ('image4.jpg', '24qu3');
 
-INSERT INTO products (isbn, title, author, genre, category, subcategory, price, image, description, stock) VALUES
+INSERT INTO products (isbn, title, author, genre, category, subcategory, price, image_url, description, stock) VALUES
 
 ('9780747532743', 'Harry Potter and the Young Wizard', 'J.K. Rowling', 'Fantasy', 'Kids', 'Young', 9.99, 'img/hp.jpg', 'A young wizard discovers magic.', 15),
 ('9780241523561', 'My First Animals', 'Laura Baker', 'Educational', 'Kids', 'Infants', 5.50, 'img/animals.jpg', 'Picture book for toddlers.', 20),

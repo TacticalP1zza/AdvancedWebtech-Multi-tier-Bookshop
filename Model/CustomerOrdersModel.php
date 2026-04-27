@@ -104,7 +104,7 @@ class CustomerOrdersModel
                     products.genre,
                     products.category,
                     products.subcategory,
-                    Accounts.userName,
+                    Accounts.user_name,
                     Accounts.email,
                     Accounts.phone
                 FROM orders
@@ -143,7 +143,7 @@ class CustomerOrdersModel
                     orders.quantity,
                     orders.price,
                     orders.order_date,
-                    Accounts.userName,
+                    Accounts.user_name,
                     Accounts.email,
                     Accounts.phone,
                     products.title,

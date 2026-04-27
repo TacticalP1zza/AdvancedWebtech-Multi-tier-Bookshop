@@ -22,7 +22,7 @@ class UserAccountsModel
      */
     public function checkEmailExists($email)
     {
-        $sql = "SELECT id FROM Accounts WHERE email = ? LIMIT 1";
+        $sql = "SELECT id FROM accounts WHERE email = ? LIMIT 1";
 
         $stmt = $this->connection->prepare($sql);
 
@@ -47,7 +47,7 @@ class UserAccountsModel
      */
     public function createUser($username, $phone, $email, $hashedPassword)
     {
-        $sql = "INSERT INTO Accounts (userName, phone, email, password)
+        $sql = "INSERT INTO Accounts (user_name, phone, email, password_hash)
                 VALUES (?, ?, ?, ?)";
 
         $stmt = $this->connection->prepare($sql);
@@ -75,7 +75,7 @@ class UserAccountsModel
      */
     public function getUserByEmail($email)
     {
-        $sql = "SELECT id, userName, phone, email, password, admin
+        $sql = "SELECT id, user_name, phone, email, password_hash, is_admin
                 FROM Accounts
                 WHERE email = ?
                 LIMIT 1";

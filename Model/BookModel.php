@@ -31,7 +31,7 @@ class BookModel
                     category,
                     subcategory,
                     price,
-                    image,
+                    image_url,
                     description,
                     stock
                 FROM products
@@ -93,7 +93,7 @@ class BookModel
                     category,
                     subcategory,
                     price,
-                    image,
+                    image_url,
                     description,
                     stock
                 FROM products

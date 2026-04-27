@@ -22,8 +22,8 @@ class CaptchaModel
      */
     public function getRandomCaptcha()
     {
-        $sql = "SELECT id, imageName
-                FROM CaptchaImages
+        $sql = "SELECT id, image_name
+                FROM captcha_images
                 ORDER BY RAND()
                 LIMIT 1";
 
@@ -50,8 +50,8 @@ class CaptchaModel
     public function captchaMatches($captchaId, $captchaInput)
     {
         $sql = "SELECT id
-                FROM CaptchaImages
-                WHERE id = ? AND captchaText = ?
+                FROM captcha_images
+                WHERE id = ? AND captcha_text = ?
                 LIMIT 1";
 
         $stmt = $this->connection->prepare($sql);
