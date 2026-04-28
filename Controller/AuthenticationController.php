@@ -3,39 +3,34 @@
 require_once __DIR__ . '/MainController.php';
 
 /**
- * AuthenticationController.php
- *
- * Purpose:
- * - Handles user registration, login, logout, CAPTCHA validation,
- *   and AJAX email availability checking.
- *
- * Responsibilities:
- * - Validate registration and login form input
- * - Authenticate users
- * - Generate and validate CAPTCHA
- *
- *
+ * 
+ * @description
+ * Controller responsible for handling user authentication workflows,
+ * including registration, login, logout, CAPTCHA validation,
+ * and AJAX-based email availability checks.
+ * 
+ * @class AuthenticationController Handles authentication actions.
  */
-
 class AuthenticationController extends MainController
 {
     private $userModel;
     private $captchaModel;
 
+    /**
+     * Creates the authentication controller.
+     * @param UserAccountsModel $userModel
+     * @param CaptchaModel $captchaModel
+     */
     public function __construct($userModel, $captchaModel)
     {
         parent::__construct();
-
         $this->userModel = $userModel;
         $this->captchaModel = $captchaModel;
     }
 
     /**
-     * showLogin
-     *
-     * Redirects to the login page and prepares a CAPTCHA challenge.
-     *
-     * @return string View path
+     * Outputs login view with CAPTCHA.
+     * @returns string
      */
     public function showLogin()
     {
@@ -43,18 +38,15 @@ class AuthenticationController extends MainController
 
         if ($captcha) {
             $_SESSION['loginCaptchaId'] = $captcha['id'];
-            $_SESSION['loginCaptchaImage'] = $captcha['imageName'];
+            $_SESSION['loginCaptchaImage'] = $captcha['image_name'];
         }
 
         return 'authentication/login';
     }
 
     /**
-     * showRegister
-     * 
-     * Redirects to the registration page.
-     *
-     * @return string View path
+     * Outputs registration view.
+     * @returns string
      */
     public function showRegister()
     {
@@ -62,12 +54,8 @@ class AuthenticationController extends MainController
     }
 
     /**
-     * checkEmailExists
-     *
-     * - Uses AJAX to check if a email is available before they hit register button.
-     * - Sanitises and validates the email before querying the model.
-     *
-     * @return void JSON response
+     * Outputs email availability as JSON.
+     * @returns void
      */
     public function checkEmailExists()
     {
@@ -84,14 +72,8 @@ class AuthenticationController extends MainController
     }
 
     /**
-     * handleRegister
-     *
-     * Handles the Registration of a user.
-     *
-     * Practical 7:
-     * Implements password_hash() as required in the practical.
-     *
-     * @return void Redirects to login upon success
+     * Registers a new user account.
+     * @returns void
      */
     public function handleRegister()
     {
@@ -131,7 +113,7 @@ class AuthenticationController extends MainController
             $errors[] = "Emails do not match.";
         }
 
-        if ($email !== '' && $this->userModel->CheckEmailExists($email)) {
+        if ($email !== '' && $this->userModel->checkEmailExists($email)) {
             $errors[] = "Email address already exists.";
         }
 
@@ -152,7 +134,6 @@ class AuthenticationController extends MainController
             $this->redirectTo('register');
         }
 
-        //Practical 7: store only the hashed password, never the plain password.
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         $success = $this->userModel->createUser(
@@ -172,15 +153,8 @@ class AuthenticationController extends MainController
     }
 
     /**
-     * handleLogin
-     *
-     * - Authenticates a user and creates a secure logged-in session.
-     *
-     * - Validates CAPTCHA before login
-     * - Uses password_verify() to compare password with stored hash
-     * - Regenerates session ID after successful login to reduce session hijacking risk
-     *
-     * @return void Redirects to shop upon success
+     * Authenticates user login.
+     * @returns void
      */
     public function handleLogin()
     {
@@ -218,7 +192,7 @@ class AuthenticationController extends MainController
 
         $user = $this->userModel->getUserByEmail($email);
 
-        if (!$user || !password_verify($password, $user['password'])) {
+        if (!$user || !password_verify($password, $user['password_hash'])) {
             $_SESSION['loginErrors'] = ["Incorrect email or password."];
 
             $captcha = $this->captchaModel->getRandomCaptcha();
@@ -232,33 +206,25 @@ class AuthenticationController extends MainController
         }
 
         session_regenerate_id(true);
-        
+
         $_SESSION['sessionIp'] = $_SERVER['REMOTE_ADDR'];
         $_SESSION['sessionUserAgent'] = $_SERVER['HTTP_USER_AGENT'] ?? '';
-
         $_SESSION['sessionId'] = session_id();
         $_SESSION['userId'] = (int) $user['id'];
-        $_SESSION['username'] = $user['userName'];
+        $_SESSION['username'] = $user['user_name'];
         $_SESSION['email'] = $user['email'];
         $_SESSION['phone'] = $user['phone'];
-        $_SESSION['isAdmin'] = (int) $user['admin'];
+        $_SESSION['isAdmin'] = (int) $user['is_admin'];
         $_SESSION['isLoggedIn'] = true;
 
-        unset($_SESSION['loginCaptchaId']);
-        unset($_SESSION['loginCaptchaImage']);
+        unset($_SESSION['loginCaptchaId'], $_SESSION['loginCaptchaImage']);
 
         $this->redirectTo('shop');
     }
 
     /**
-     * handleLogout
-     *
-     * - Logs the user out and destroys the current session.
-     * - Clears session variables
-     * - Removes the session cookie
-     * - Destroys the server-side session
-     *
-     * @return void Redirects to login page
+     * Logs out current user.
+     * @returns void
      */
     public function handleLogout()
     {

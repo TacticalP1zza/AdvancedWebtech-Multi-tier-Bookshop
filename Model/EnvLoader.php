@@ -1,14 +1,15 @@
 <?php
 
 /**
- * EnvLoader.php
- *
+ * @class EnvLoader
  * Loads environment variables from a .env file.
- * This keeps database credentials outside the source code.
  */
-
 class EnvLoader
 {
+    /**
+     * @param string $filePath
+     * @returns {bool}
+     */
     public static function load($filePath)
     {
         if (!file_exists($filePath)) {

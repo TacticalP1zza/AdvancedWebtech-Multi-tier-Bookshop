@@ -1,19 +1,8 @@
 <?php
 
 /**
- * index.php
- *
- * Front Controller (MVC Entry Point)
- *
- * Responsibilities:
- * - Initialise application through Bootstrap
- * - Map URL actions to controller methods
- * - Render views
- *
- * Design Notes:
- * - Uses explicit routing instead of unsafe dynamic method calls
- * - Controllers handle business logic
- * - View handles rendering only
+ * @file index.php
+ * @description Front controller for routing requests and rendering views.
  */
 
 require_once __DIR__ . '/Bootstrap.php';
@@ -30,6 +19,10 @@ $view = new View();
 
 $action = $_GET['action'] ?? 'shop';
 
+/**
+ * Maps route actions to controller methods.
+ * @var array<string, callable>
+ */
 $routes = [
 
     // Authentication
@@ -53,12 +46,9 @@ $routes = [
     'adminDashboard' => fn() => $adminController->showAdminDashboard(),
     'adminOrders' => fn() => $adminController->showAdminOrders(),
 
-    // REST-style API endpoints for manager/order resources
+    // REST API
     'apiOrder' => fn() => $adminController->fetchOrderById(),
     'apiOrders' => fn() => $adminController->fetchAllOrdersApi(),
-
-    // Backwards compatibility while refactoring
-    'fetchOrderById' => fn() => $adminController->fetchOrderById(),
 ];
 
 if (!isset($routes[$action])) {

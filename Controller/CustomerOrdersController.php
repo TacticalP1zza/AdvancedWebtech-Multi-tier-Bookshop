@@ -3,41 +3,28 @@
 require_once __DIR__ . '/MainController.php';
 
 /**
- * CustomerOrdersController.php
- *
- * Handles:
- * - Order page display
- * - Order submission
- * - Customer order history
- *
- * Design:
- * - Uses orderModel for database operations
- * - Uses bookModel for product lookup
- * - Returns structured responses for View (page + data)
- *
- * Security:
- * - Requires login for all actions
- * - Prevents admin users from placing orders
- * - Validates all inputs before processing
+ * @class CustomerOrdersController Handles customer orders.
+ * @description Controls order pages, order submission, and order history.
  */
-
 class CustomerOrdersController extends MainController
 {
     private $orderModel;
     private $bookModel;
 
+    /**
+     * @param CustomerOrdersModel $orderModel
+     * @param BookModel $bookModel
+     */
     public function __construct($orderModel, $bookModel)
     {
         parent::__construct();
-
         $this->orderModel = $orderModel;
         $this->bookModel = $bookModel;
     }
 
     /**
-     * showOrderPage
-     *
-     * - Displays selected product before confirmation.
+     * Returns order confirmation view.
+     * @returns string
      */
     public function showOrderPage()
     {
@@ -64,9 +51,8 @@ class CustomerOrdersController extends MainController
     }
 
     /**
-     * handleOrderSubmit
-     *
-     * - Processes order submission.
+     * Processes order submission.
+     * @returns void
      */
     public function handleOrderSubmit()
     {
@@ -115,9 +101,8 @@ class CustomerOrdersController extends MainController
     }
 
     /**
-     * showOrderHistory
-     *
-     * - Displays logged-in user's order history.
+     * Returns customer order history view.
+     * @returns array
      */
     public function showOrderHistory()
     {

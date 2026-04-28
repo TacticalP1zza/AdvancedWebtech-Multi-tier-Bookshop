@@ -1,21 +1,13 @@
 /**
- * LoginForm.js
- *
- * Purpose:
- * - Handles client-side login form validation using React.
- * - Submits valid login requests to AuthenticationController::handleLogin().
- *
- * Design:
- * - Uses controlled React inputs.
- * - Uses onBlur validation to avoid excessive validation while typing.
- *
- * Security:
- * - Client-side validation improves usability only.
- * - Final validation is still performed server-side in AuthenticationController.
- * - CAPTCHA is displayed client-side but validated server-side.
+ * @file LoginForm.js
+ * @description Handles client-side login validation with React.
  */
 
 class LoginForm extends React.Component {
+    /**
+     * Creates login form state and binds handlers.
+     * @param {object} props
+     */
     constructor(props) {
         super(props);
 
@@ -47,6 +39,11 @@ class LoginForm extends React.Component {
         this.getInputClass = this.getInputClass.bind(this);
     }
 
+    /**
+     * Validates email input.
+     * @param {string} emailValue
+     * @returns {string}
+     */
     validateEmail(emailValue) {
         const email = emailValue.trim();
 
@@ -61,6 +58,11 @@ class LoginForm extends React.Component {
         return "";
     }
 
+    /**
+     * Validates password input.
+     * @param {string} passwordValue
+     * @returns {string}
+     */
     validatePassword(passwordValue) {
         if (passwordValue.trim() === "") {
             return "Password is required.";
@@ -69,6 +71,11 @@ class LoginForm extends React.Component {
         return "";
     }
 
+    /**
+     * Validates CAPTCHA input.
+     * @param {string} captchaValue
+     * @returns {string}
+     */
     validateCaptcha(captchaValue) {
         if (captchaValue.trim() === "") {
             return "CAPTCHA is required.";
@@ -77,6 +84,11 @@ class LoginForm extends React.Component {
         return "";
     }
 
+    /**
+     * Updates input state.
+     * @param {Event} event
+     * @returns {void}
+     */
     handleChange(event) {
         const { name, value } = event.target;
 
@@ -87,6 +99,11 @@ class LoginForm extends React.Component {
         });
     }
 
+    /**
+     * Marks field as touched.
+     * @param {Event} event
+     * @returns {void}
+     */
     handleBlur(event) {
         const fieldName = event.target.name;
 
@@ -98,6 +115,10 @@ class LoginForm extends React.Component {
         }));
     }
 
+    /**
+     * Validates all fields.
+     * @returns {object}
+     */
     validateAllFields() {
         return {
             emailError: this.validateEmail(this.state.email),
@@ -106,6 +127,11 @@ class LoginForm extends React.Component {
         };
     }
 
+    /**
+     * Handles form submission.
+     * @param {Event} event
+     * @returns {void}
+     */
     handleSubmit(event) {
         const validationErrors = this.validateAllFields();
 
@@ -138,6 +164,12 @@ class LoginForm extends React.Component {
         });
     }
 
+    /**
+     * Returns input CSS class.
+     * @param {string} fieldName
+     * @param {string} errorMessage
+     * @returns {string}
+     */
     getInputClass(fieldName, errorMessage) {
         if (!this.state.touched[fieldName]) {
             return "input-field";
@@ -150,6 +182,10 @@ class LoginForm extends React.Component {
         return "input-field";
     }
 
+    /**
+     * Renders server errors.
+     * @returns {React.ReactNode}
+     */
     renderServerErrors() {
         if (this.state.serverErrors.length === 0) {
             return null;
@@ -164,6 +200,10 @@ class LoginForm extends React.Component {
         );
     }
 
+    /**
+     * Renders login form.
+     * @returns {React.ReactNode}
+     */
     render() {
         return (
             <div className="container">

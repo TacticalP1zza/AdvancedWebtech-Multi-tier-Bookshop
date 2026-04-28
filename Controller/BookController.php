@@ -3,37 +3,25 @@
 require_once __DIR__ . '/MainController.php';
 
 /**
- * BookController.php
- *
- * Purpose:
- * - Handles bookstore browsing
- * - Provides AJAX-based book retrieval
- * - Filters books by category and subcategory
- *
- *
- * AJAX:
- * - fetchBooks() supports asynchronous book loading without a full page reload
- * - Returns structured JSON for frontend JavaScript consumption
- *
+ * @class BookController Handles bookstore browsing.
+ * @description Controls shop view and book retrieval.
  */
-
 class BookController extends MainController
 {
     private $bookModel;
 
+    /**
+     * @param BookModel $bookModel
+     */
     public function __construct($bookModel)
     {
         parent::__construct();
-
         $this->bookModel = $bookModel;
     }
 
     /**
-     * showShop
-     *
-     * - redirects to shop page.
-     * 
-     * @return string View path
+     * Returns shop view.
+     * @returns string
      */
     public function showShop()
     {
@@ -41,11 +29,8 @@ class BookController extends MainController
     }
 
     /**
-     * fetchBooks
-     *
-     * - Retrieves books filtered by category and/or subcategory.
-     *
-     * @return void JSON response
+     * Outputs books as JSON.
+     * @returns void
      */
     public function fetchBooks()
     {

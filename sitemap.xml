@@ -16,15 +16,4 @@
         <loc>https://teach.cs.keele.ac.uk/users/x7x92/index.php?action=register</loc>
         <priority>0.8</priority>
     </url>
-
-    <url>
-        <loc>https://teach.cs.keele.ac.uk/users/x7x92/index.php?action=orderHistory</loc>
-        <priority>0.6</priority>
-    </url>
-
-    <url>
-        <loc>https://teach.cs.keele.ac.uk/users/x7x92/index.php?action=adminDashboard</loc>
-        <priority>0.3</priority>
-    </url>
-
 </urlset>

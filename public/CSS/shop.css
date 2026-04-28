@@ -1,3 +1,4 @@
+/* ===== Book Grid ===== */
 .book-grid {
     width: 100%;
     display: grid;
@@ -7,6 +8,7 @@
     padding: 1.2rem;
 }
 
+/* ===== Book Card ===== */
 .book-card {
     background: #ffffff;
     border: 1px solid #d9e2ec;
@@ -26,6 +28,7 @@
     border-color: #F2C200;
 }
 
+/* ===== Book Image ===== */
 .book-image {
     width: 100%;
     height: 24rem;
@@ -46,6 +49,7 @@
     display: block;
 }
 
+/* ===== Book Content ===== */
 .book-card h3 {
     font-size: 1.9rem;
     font-weight: 800;
@@ -81,6 +85,7 @@
     border-top: 1px solid #d9e2ec;
 }
 
+/* ===== Messages ===== */
 #book-message {
     font-size: 1.5rem;
     color: #5B6470;
@@ -97,6 +102,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+/* ===== Actions ===== */
 .order-button {
     margin-top: 1.2rem;
     width: 100%;
@@ -117,14 +123,23 @@
     color: #003B73;
 }
 
-/* Large laptop / smaller desktop */
+/* ===== Layout Fix ===== */
+.shop-page {
+    min-height: calc(100vh - 8rem - 18rem);
+}
+
+.book-grid {
+    min-height: 45rem;
+}
+
+/* ===== Responsive: Large Desktop ===== */
 @media (max-width: 1280px) {
     .book-grid {
         grid-template-columns: repeat(4, 220px);
     }
 }
 
-/* Tablet */
+/* ===== Responsive: Tablet ===== */
 @media (max-width: 992px) {
     .book-grid {
         grid-template-columns: repeat(3, 210px);
@@ -140,16 +155,8 @@
         height: 20rem;
     }
 }
-/*To prevent Lighhouse error*/  
-.shop-page {
-    min-height: calc(100vh - 8rem - 18rem);
-}
 
-.book-grid {
-    min-height: 45rem;
-}
-
-/* Large phone / small tablet */
+/* ===== Responsive: Small Tablet ===== */
 @media (max-width: 768px) {
     .book-grid {
         grid-template-columns: repeat(2, 180px);
@@ -183,8 +190,8 @@
     }
 }
 
-/* Small phones */
-@media (max-width: 480px) {
+/* ===== Responsive: Mobile ===== */
+@media (max-width: 576px) {
     .book-grid {
         grid-template-columns: repeat(2, 160px);
         gap: 1rem;
@@ -212,7 +219,7 @@
     }
 }
 
-/* Very tiny screens */
+/* ===== Responsive: Extra Small ===== */
 @media (max-width: 360px) {
     .book-grid {
         grid-template-columns: 1fr;

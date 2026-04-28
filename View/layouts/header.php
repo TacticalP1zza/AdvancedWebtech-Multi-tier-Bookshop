@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- ===== Meta & SEO ===== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Idea Bookstore is an online bookstore offering children's and adult books including fiction, classics, comics, and crime thrillers." >
@@ -8,40 +9,46 @@
     <meta name="author" content="22018575">
     <meta name="robots" content="index, follow">
 
+    <!-- ===== Open Graph (Social Sharing) ===== -->
     <meta property="og:title" content="Idea Bookstore">
     <meta property="og:description" content="Browse children's books, adult fiction, classics, comics, crime and thriller books online.">
     <meta property="og:image" content="Public/Images/mews.webp">
     <meta property="og:type" content="website">
     <meta property="og:url" content="index.php?action=shop">
 
+    <!-- ===== Title & Styles ===== -->
     <title>Idea Bookstore | Kids, Fiction, Classics & Crime Books Online</title>
     <link rel="stylesheet" href="Public/CSS/header.css">
     <link rel="stylesheet" href="Public/CSS/footer.css">
+
+    <!-- ===== Sitemap ===== -->
     <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml">
 </head>
 
 <body>
 
+<!-- ===== Header / Navigation ===== -->
 <header class="site-header">
     <nav class="navbar" aria-label="Main navigation">
 
+        <!-- ===== Brand / Logo ===== -->
         <div class="navbar-brand">
             <a href="index.php?action=shop" class="brand-link">
                 <span class="brand-logo-wrap">
-                <img 
-                    class="brand-logo" 
-                    src="Public/Images/mews.webp"
-                    width="84"
-                    height="84"
-                    alt="Idea Bookstore logo"
-                    fetchpriority="high"
+                    <img 
+                        class="brand-logo" 
+                        src="Public/Images/mews.webp"
+                        width="84"
+                        height="84"
+                        alt="Idea Bookstore logo"
+                        fetchpriority="high"
                     >
                 </span>
-
                 <span class="brand-text">Idea Bookstore</span>
             </a>
         </div>
 
+        <!-- ===== Mobile Toggle Button ===== -->
         <button 
             class="navbar-toggle" 
             id="navToggle" 
@@ -55,9 +62,11 @@
             <span class="navbar-bar"></span>
         </button>
 
+        <!-- ===== Navigation Menu ===== -->
         <div class="navbar-menu" id="navMenu">
             <ul class="navbar-links">
 
+                <!-- ===== Kids Category Dropdown ===== -->
                 <li class="nav-dropdown shop-only">
                     <a 
                         href="index.php?action=shop" 
@@ -66,20 +75,13 @@
                         data-subcategory=""
                     >
                         <span>Kids</span>
-
                         <svg class="nav-chevron" viewBox="0 0 24 24" aria-hidden="true">
-                            <path 
-                                d="M6 9l6 6 6-6" 
-                                fill="none" 
-                                stroke="currentColor" 
-                                stroke-width="2" 
-                                stroke-linecap="round" 
-                                stroke-linejoin="round">
-                            </path>
+                            <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"></path>
                         </svg>
                     </a>
 
                     <div class="dropdown-panel">
+                        <!-- Subcategories -->
                         <a href="shop&category=Kids" class="dropdown-item book-filter-link" data-category="Kids" data-subcategory="Infants">
                             <span class="dropdown-title">Infants</span>
                             <span class="dropdown-desc">Early picture books and baby stories</span>
@@ -97,6 +99,7 @@
                     </div>
                 </li>
 
+                <!-- ===== Adults Category Dropdown ===== -->
                 <li class="nav-dropdown shop-only">
                     <a 
                         href="index.php?action=shop" 
@@ -105,20 +108,13 @@
                         data-subcategory=""
                     >
                         <span>Adults</span>
-
                         <svg class="nav-chevron" viewBox="0 0 24 24" aria-hidden="true">
-                            <path 
-                                d="M6 9l6 6 6-6" 
-                                fill="none" 
-                                stroke="currentColor" 
-                                stroke-width="2" 
-                                stroke-linecap="round" 
-                                stroke-linejoin="round">
-                            </path>
+                            <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"></path>
                         </svg>
                     </a>
 
                     <div class="dropdown-panel">
+                        <!-- Subcategories -->
                         <a href="index.php?action=shop" class="dropdown-item book-filter-link" data-category="Adults" data-subcategory="Classic Novels">
                             <span class="dropdown-title">Classic Novels</span>
                             <span class="dropdown-desc">Timeless literature and essential reads</span>
@@ -141,28 +137,24 @@
                     </div>
                 </li>
 
+                <!-- ===== Shop Link ===== -->
                 <li>
                     <a href="index.php?action=shop" class="nav-link">
-                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                            <path 
-                                fill-rule="evenodd" 
-                                clip-rule="evenodd"
-                                d="M2 1C1.44772 1 1 1.44772 1 2C1 2.55228 1.44772 3 2 3H3.21922L6.78345 17.2569C5.73276 17.7236 5 18.7762 5 20C5 21.6569 6.34315 23 8 23C9.65685 23 11 21.6569 11 20C11 19.6494 10.9398 19.3128 10.8293 19H15.1707C15.0602 19.3128 15 19.6494 15 20C15 21.6569 16.3431 23 18 23C19.6569 23 21 21.6569 21 20C21 18.3431 19.6569 17 18 17H8.78078L8.28078 15H18C20.0642 15 21.3019 13.6959 21.9887 12.2559C22.6599 10.8487 22.8935 9.16692 22.975 7.94368C23.0884 6.24014 21.6803 5 20.1211 5H5.78078L5.15951 2.51493C4.93692 1.62459 4.13696 1 3.21922 1H2ZM18 13H7.78078L6.28078 7H20.1211C20.6742 7 21.0063 7.40675 20.9794 7.81078C20.9034 8.9522 20.6906 10.3318 20.1836 11.3949C19.6922 12.4251 19.0201 13 18 13ZM18 20.9938C17.4511 20.9938 17.0062 20.5489 17.0062 20C17.0062 19.4511 17.4511 19.0062 18 19.0062C18.5489 19.0062 18.9938 19.4511 18.9938 20C18.9938 20.5489 18.5489 20.9938 18 20.9938ZM7.00617 20C7.00617 20.5489 7.45112 20.9938 8 20.9938C8.54888 20.9938 8.99383 20.5489 8.99383 20C8.99383 19.4511 8.54888 19.0062 8 19.0062C7.45112 19.0062 7.00617 19.4511 7.00617 20Z"
-                                fill="currentColor">
-                            </path>
+                        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="..."></path>
                         </svg>
-
                         <span>Shop</span>
                     </a>
                 </li>
 
+                <!-- ===== Account Dropdown ===== -->
                 <li class="nav-dropdown">
                     <a href="index.php?action=shop" class="nav-link nav-dropdown-trigger">
-                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                            <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="currentColor"></path>
-                            <path d="M12 14C7.58172 14 4 17.134 4 21H20C20 17.134 16.4183 14 12 14Z" fill="currentColor"></path>
+                        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="..."></path>
                         </svg>
 
+                        <!-- Dynamic Username -->
                         <span>
                             <?php if (!empty($_SESSION['isLoggedIn'])): ?>
                                 <?php echo htmlentities($_SESSION['username'], ENT_QUOTES, 'UTF-8'); ?>
@@ -172,56 +164,47 @@
                         </span>
 
                         <svg class="nav-chevron" viewBox="0 0 24 24" aria-hidden="true">
-                            <path 
-                                d="M6 9l6 6 6-6" 
-                                fill="none" 
-                                stroke="currentColor" 
-                                stroke-width="2" 
-                                stroke-linecap="round" 
-                                stroke-linejoin="round">
-                            </path>
+                            <path d="M6 9l6 6 6-6"></path>
                         </svg>
                     </a>
 
+                    <!-- Account Options -->
                     <div class="dropdown-panel dropdown-panel--right">
                         <?php if (!empty($_SESSION['isLoggedIn'])): ?>
 
+                            <!-- Admin Options -->
                             <?php if (!empty($_SESSION['isAdmin']) && (int) $_SESSION['isAdmin'] === 1): ?>
-
                                 <a href="index.php?action=adminDashboard" class="dropdown-item">
                                     <span class="dropdown-title">Admin Dashboard</span>
-                                    <span class="dropdown-desc">Manage orders and system</span>
                                 </a>
 
                                 <a href="index.php?action=adminOrders" class="dropdown-item">
                                     <span class="dropdown-title">Admin Orders</span>
-                                    <span class="dropdown-desc">View customer orders</span>
                                 </a>
 
                             <?php else: ?>
 
+                                <!-- Customer Options -->
                                 <a href="index.php?action=orderHistory" class="dropdown-item">
                                     <span class="dropdown-title">Order History</span>
-                                    <span class="dropdown-desc">Review your previous orders</span>
                                 </a>
 
                             <?php endif; ?>
 
+                            <!-- Logout -->
                             <a href="index.php?action=logout" class="dropdown-item">
                                 <span class="dropdown-title">Sign Out</span>
-                                <span class="dropdown-desc">Log out of your account</span>
                             </a>
 
                         <?php else: ?>
 
+                            <!-- Guest Options -->
                             <a href="index.php?action=login" class="dropdown-item">
                                 <span class="dropdown-title">Login</span>
-                                <span class="dropdown-desc">Sign in to your bookstore account</span>
                             </a>
 
                             <a href="index.php?action=register" class="dropdown-item">
                                 <span class="dropdown-title">Register</span>
-                                <span class="dropdown-desc">Create a new customer account</span>
                             </a>
 
                         <?php endif; ?>

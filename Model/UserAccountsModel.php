@@ -3,11 +3,9 @@
 require_once __DIR__ . '/DB_Connection.php';
 
 /**
- * UserAccountsModel.php
- *
+ * @class UserAccountsModel
  * Handles account-related database operations.
  */
-
 class UserAccountsModel
 {
     private $connection;
@@ -18,7 +16,8 @@ class UserAccountsModel
     }
 
     /**
-     * Check if an email is already registered.
+     * @param string $email
+     * @returns {bool}
      */
     public function checkEmailExists($email)
     {
@@ -43,11 +42,15 @@ class UserAccountsModel
     }
 
     /**
-     * Create a new user account.
+     * @param string $username
+     * @param string $phone
+     * @param string $email
+     * @param string $hashedPassword
+     * @returns {bool}
      */
     public function createUser($username, $phone, $email, $hashedPassword)
     {
-        $sql = "INSERT INTO Accounts (user_name, phone, email, password_hash)
+        $sql = "INSERT INTO accounts (user_name, phone, email, password_hash)
                 VALUES (?, ?, ?, ?)";
 
         $stmt = $this->connection->prepare($sql);
@@ -71,12 +74,13 @@ class UserAccountsModel
     }
 
     /**
-     * Retrieve a user by email for login authentication.
+     * @param string $email
+     * @returns {array|false}
      */
     public function getUserByEmail($email)
     {
         $sql = "SELECT id, user_name, phone, email, password_hash, is_admin
-                FROM Accounts
+                FROM accounts
                 WHERE email = ?
                 LIMIT 1";
 

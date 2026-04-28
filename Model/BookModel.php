@@ -3,22 +3,27 @@
 require_once __DIR__ . '/DB_Connection.php';
 
 /**
- * BookModel.php
- *
- * Handles book/product database operations.
+ * @class BookModel Handles book database operations.
+ * @description Retrieves book data and single book records.
  */
-
 class BookModel
 {
     private $connection;
 
+    /**
+     * Initialises database connection.
+     * @returns void
+     */
     public function __construct()
     {
         $this->connection = DB_Connection::getConnection();
     }
 
     /**
-     * Retrieve books, optionally filtered by category and subcategory.
+     * Returns filtered books.
+     * @param string $category
+     * @param string $subcategory
+     * @returns array
      */
     public function getBooks($category = '', $subcategory = '')
     {
@@ -80,7 +85,9 @@ class BookModel
     }
 
     /**
-     * Retrieve one book by ID.
+     * Returns book by ID.
+     * @param int $bookId
+     * @returns array|false
      */
     public function getBookById($bookId)
     {

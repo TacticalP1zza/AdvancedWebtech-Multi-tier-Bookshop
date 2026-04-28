@@ -3,16 +3,16 @@
 require_once __DIR__ . '/EnvLoader.php';
 
 /**
- * DB_Connection.php
- *
- * Creates a reusable MySQLi database connection.
- * 
+ * @class DB_Connection
+ * Provides a reusable MySQLi connection.
  */
-
 class DB_Connection
 {
     private static $connection = null;
 
+    /**
+     * @returns {mysqli|null}
+     */
     public static function getConnection()
     {
         if (self::$connection !== null) {

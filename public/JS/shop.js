@@ -1,10 +1,12 @@
 /**
- * shop.js
- *
- * Handles AJAX book loading, category filtering, and dynamic book rendering.
+ * @file shop.js
+ * @description Handles AJAX book loading, filtering, and rendering.
  */
 
+/** @type {string} */
 window.currentCategory = "";
+
+/** @type {string} */
 window.currentSubcategory = "";
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -12,6 +14,10 @@ document.addEventListener("DOMContentLoaded", function () {
     loadBooks();
 });
 
+/**
+ * Binds category filter links.
+ * @returns {void}
+ */
 function bindBookFilters() {
     const filterLinks = document.querySelectorAll(".book-filter-link");
 
@@ -27,6 +33,12 @@ function bindBookFilters() {
     });
 }
 
+/**
+ * Loads books with optional filters.
+ * @param {string} [category]
+ * @param {string} [subcategory]
+ * @returns {void}
+ */
 function loadBooks(category, subcategory) {
     if (typeof category === "undefined") {
         category = window.currentCategory;
@@ -75,6 +87,11 @@ function loadBooks(category, subcategory) {
     showBookMessage("Please wait...");
 }
 
+/**
+ * Renders book cards.
+ * @param {Array<object>} books
+ * @returns {void}
+ */
 function displayBooks(books) {
     const bookList = document.getElementById("book-list");
 
@@ -126,6 +143,11 @@ function displayBooks(books) {
     });
 }
 
+/**
+ * Displays book status message.
+ * @param {string} message
+ * @returns {void}
+ */
 function showBookMessage(message) {
     const messageElement = document.getElementById("book-message");
 
@@ -137,6 +159,11 @@ function showBookMessage(message) {
     messageElement.innerHTML = "<p>" + escapeHtml(message) + "</p>";
 }
 
+/**
+ * Escapes HTML to prevent XSS.
+ * @param {string} value
+ * @returns {string}
+ */
 function escapeHtml(value) {
     return String(value)
         .replace(/&/g, "&amp;")

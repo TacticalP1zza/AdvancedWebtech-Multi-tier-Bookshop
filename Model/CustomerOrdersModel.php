@@ -3,11 +3,9 @@
 require_once __DIR__ . '/DB_Connection.php';
 
 /**
- * CustomerOrdersModel.php
- *
- * Handles customer and administrator order operations.
+ * @class CustomerOrdersModel
+ * Handles order database operations.
  */
-
 class CustomerOrdersModel
 {
     private $connection;
@@ -18,7 +16,10 @@ class CustomerOrdersModel
     }
 
     /**
-     * Create a new order.
+     * @param int $userId
+     * @param int $bookId
+     * @param float $price
+     * @returns {bool}
      */
     public function createOrder($userId, $bookId, $price)
     {
@@ -48,7 +49,8 @@ class CustomerOrdersModel
     }
 
     /**
-     * Retrieve all orders for one user.
+     * @param int $userId
+     * @returns {array}
      */
     public function getOrdersByUserId($userId)
     {
@@ -90,7 +92,7 @@ class CustomerOrdersModel
     }
 
     /**
-     * Retrieve all orders for administrator view.
+     * @returns {array}
      */
     public function getAllOrders()
     {
@@ -134,7 +136,8 @@ class CustomerOrdersModel
     }
 
     /**
-     * Retrieve one order by ID for REST-style API access.
+     * @param int $orderId
+     * @returns {array|false}
      */
     public function getOrderById($orderId)
     {

@@ -1,37 +1,44 @@
 /**
- * adminOrders.js
- *
- * Purpose:
- * - Handles administrator order filtering.
- * - Retrieves one order through the REST-style API endpoint.
- *
- * REST API:
- * - Uses GET index.php?action=apiOrder&id=ORDER_ID
- * - Receives a self-descriptive JSON response:
- *   {
- *      status: "success",
- *      resource: "order",
- *      data: {...}
- *   }
- *
- * Security:
- * - The server validates admin access before returning order data.
+ * @file adminOrders.js
+ * @description Handles admin order filtering and REST API lookup.
  */
 
 document.addEventListener("DOMContentLoaded", function () {
+
+    /** @type {HTMLSelectElement|null} */
     const mainCategory = document.getElementById("mainCategory");
+
+    /** @type {HTMLSelectElement|null} */
     const subCategory = document.getElementById("subCategory");
+
+    /** @type {NodeListOf<HTMLElement>} */
     const orderCards = document.querySelectorAll(".admin-order-card");
+
+    /** @type {HTMLInputElement|null} */
     const restOrderId = document.getElementById("restOrderId");
+
+    /** @type {HTMLElement|null} */
     const restApiResult = document.getElementById("restApiResult");
+
+    /** @type {HTMLButtonElement|null} */
     const restLookupButton = document.getElementById("restLookupButton");
+
+    /** @type {HTMLButtonElement|null} */
     const resetOrdersButton = document.getElementById("resetOrdersButton");
 
+    /**
+     * Category → subcategory mapping.
+     * @type {Object<string, string[]>}
+     */
     const subcategories = {
         Kids: ["Infants", "Junior", "Young"],
         Adults: ["Classic Novels", "Fiction", "Comic", "Crime and Thriller"]
     };
 
+    /**
+     * Handle main category change.
+     * Updates subcategories and filters orders.
+     */
     if (mainCategory) {
         mainCategory.addEventListener("change", function () {
             const selectedCategory = this.value;
@@ -54,6 +61,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    /**
+     * Handle subcategory change.
+     */
     if (subCategory) {
         subCategory.addEventListener("change", function () {
             restOrderId.value = "";
@@ -62,6 +72,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    /**
+     * Handle REST API lookup button click.
+     */
     if (restLookupButton) {
         restLookupButton.addEventListener("click", function () {
             const orderId = restOrderId.value;
@@ -78,6 +91,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const request = new XMLHttpRequest();
 
+            /**
+             * Handles API response state changes.
+             */
             request.onreadystatechange = function () {
                 if (request.readyState === 4) {
                     if (request.status === 200) {
@@ -99,6 +115,10 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    /**
+     * Handle reset button click.
+     * Restores default state and shows all orders.
+     */
     if (resetOrdersButton) {
         resetOrdersButton.addEventListener("click", function () {
             restOrderId.value = "";
@@ -113,6 +133,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    /**
+     * Parses and handles successful API response.
+     * @param {string} responseText
+     * @returns {void}
+     */
     function handleSuccessfulApiResponse(responseText) {
         try {
             const response = JSON.parse(responseText);
@@ -137,6 +162,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    /**
+     * Filters order cards by selected category and subcategory.
+     * @returns {void}
+     */
     function filterOrders() {
         const selectedCategory = mainCategory.value;
         const selectedSubcategory = subCategory.value;
@@ -152,6 +181,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    /**
+     * Displays only the selected order.
+     * @param {string|number} orderId
+     * @returns {void}
+     */
     function showOnlyOrder(orderId) {
         orderCards.forEach(function (card) {
             const cardOrderId = card.getAttribute("data-order-id");
@@ -159,12 +193,21 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    /**
+     * Hides all order cards.
+     * @returns {void}
+     */
     function hideAllOrders() {
         orderCards.forEach(function (card) {
             card.style.display = "none";
         });
     }
 
+    /**
+     * Escapes HTML to prevent XSS.
+     * @param {string} value
+     * @returns {string}
+     */
     function escapeHtml(value) {
         return String(value)
             .replace(/&/g, "&amp;")

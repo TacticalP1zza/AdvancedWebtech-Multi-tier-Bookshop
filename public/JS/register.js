@@ -1,21 +1,13 @@
 /**
- * RegistrationForm.js
- *
- * Purpose:
- * - Handles client-side registration validation using React.
- * - Submits valid registration requests to AuthenticationController::handleRegister().
- *
- * Design:
- * - Uses controlled React inputs.
- * - Uses onBlur email availability checking to avoid excessive AJAX calls.
- *
- * Security:
- * - Client-side validation improves usability only.
- * - Final validation is still performed server-side in AuthenticationController.
- * - Email availability uses encodeURIComponent() to safely encode AJAX parameters.
+ * @file RegistrationForm.js
+ * @description Handles client-side registration validation with React.
  */
 
 class RegistrationForm extends React.Component {
+    /**
+     * Creates registration form state and binds handlers.
+     * @param {object} props
+     */
     constructor(props) {
         super(props);
 
@@ -62,6 +54,11 @@ class RegistrationForm extends React.Component {
         this.isFormValid = this.isFormValid.bind(this);
     }
 
+    /**
+     * Validates username input.
+     * @param {string} value
+     * @returns {string}
+     */
     validateUserName(value) {
         const userName = value.trim();
 
@@ -84,6 +81,11 @@ class RegistrationForm extends React.Component {
         return "";
     }
 
+    /**
+     * Validates phone input.
+     * @param {string} value
+     * @returns {string}
+     */
     validatePhone(value) {
         const phone = value.trim();
 
@@ -102,6 +104,11 @@ class RegistrationForm extends React.Component {
         return "";
     }
 
+    /**
+     * Validates email input.
+     * @param {string} value
+     * @returns {string}
+     */
     validateEmail(value) {
         const email = value.trim();
 
@@ -116,6 +123,11 @@ class RegistrationForm extends React.Component {
         return "";
     }
 
+    /**
+     * Validates confirmed email input.
+     * @param {string} value
+     * @returns {string}
+     */
     validateConfirmEmail(value) {
         const confirmEmail = value.trim();
 
@@ -130,6 +142,11 @@ class RegistrationForm extends React.Component {
         return "";
     }
 
+    /**
+     * Validates password input.
+     * @param {string} value
+     * @returns {string}
+     */
     validatePassword(value) {
         const password = value;
 
@@ -160,6 +177,11 @@ class RegistrationForm extends React.Component {
         return "";
     }
 
+    /**
+     * Validates confirmed password input.
+     * @param {string} value
+     * @returns {string}
+     */
     validateConfirmPassword(value) {
         if (value.trim() === "") {
             return "Please confirm your password.";
@@ -172,6 +194,11 @@ class RegistrationForm extends React.Component {
         return "";
     }
 
+    /**
+     * Checks email availability through AJAX.
+     * @param {string} email
+     * @returns {void}
+     */
     checkEmailAvailability(email) {
         const emailError = this.validateEmail(email);
 
@@ -202,6 +229,11 @@ class RegistrationForm extends React.Component {
             });
     }
 
+    /**
+     * Updates input state and validates field.
+     * @param {Event} event
+     * @returns {void}
+     */
     handleChange(event) {
         const { name, value } = event.target;
 
@@ -228,6 +260,11 @@ class RegistrationForm extends React.Component {
         );
     }
 
+    /**
+     * Marks field as touched.
+     * @param {Event} event
+     * @returns {void}
+     */
     handleBlur(event) {
         const fieldName = event.target.name;
 
@@ -248,6 +285,11 @@ class RegistrationForm extends React.Component {
         );
     }
 
+    /**
+     * Validates selected field.
+     * @param {string} fieldName
+     * @returns {void}
+     */
     runValidation(fieldName) {
         if (fieldName === "userName") {
             this.setState({
@@ -293,6 +335,10 @@ class RegistrationForm extends React.Component {
         }
     }
 
+    /**
+     * Validates all fields.
+     * @returns {object}
+     */
     validateAllFields() {
         return {
             userNameError: this.validateUserName(this.state.userName),
@@ -304,6 +350,10 @@ class RegistrationForm extends React.Component {
         };
     }
 
+    /**
+     * Returns form validity.
+     * @returns {boolean}
+     */
     isFormValid() {
         const errors = this.validateAllFields();
 
@@ -319,6 +369,11 @@ class RegistrationForm extends React.Component {
         return !hasErrors && !emailInvalid;
     }
 
+    /**
+     * Handles form submission.
+     * @param {Event} event
+     * @returns {void}
+     */
     handleSubmit(event) {
         const validationErrors = this.validateAllFields();
 
@@ -358,6 +413,12 @@ class RegistrationForm extends React.Component {
         });
     }
 
+    /**
+     * Returns input CSS class.
+     * @param {string} fieldName
+     * @param {string} errorMessage
+     * @returns {string}
+     */
     getInputClass(fieldName, errorMessage) {
         if (!this.state.touched[fieldName]) {
             return "input-field";
@@ -382,12 +443,20 @@ class RegistrationForm extends React.Component {
         return "input-field input-valid";
     }
 
+    /**
+     * Returns submit button CSS class.
+     * @returns {string}
+     */
     getButtonClass() {
         return this.isFormValid()
             ? "Form-Button button-success"
             : "Form-Button button-error";
     }
 
+    /**
+     * Renders server error messages.
+     * @returns {React.ReactNode}
+     */
     renderServerErrors() {
         if (this.state.serverErrors.length === 0) {
             return null;
@@ -402,6 +471,10 @@ class RegistrationForm extends React.Component {
         );
     }
 
+    /**
+     * Renders registration form.
+     * @returns {React.ReactNode}
+     */
     render() {
         const emailMessageClass =
             this.state.emailAvailability === "Email available."

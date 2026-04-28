@@ -5,11 +5,12 @@ Allow: /
 Disallow: /index.php?action=adminDashboard
 Disallow: /index.php?action=adminOrders
 Disallow: /index.php?action=orderHistory
+Disallow: /index.php?action=login
+Disallow: /index.php?action=register
+
 
 # Allow important pages
 Allow: /index.php?action=shop
-Allow: /index.php?action=login
-Allow: /index.php?action=register
 
 # Sitemap location
 Sitemap: https://teach.cs.keele.ac.uk/users/x7x92/sitemap.xml

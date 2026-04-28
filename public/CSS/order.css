@@ -1,3 +1,4 @@
+/* ===== Orders Page Layout ===== */
 .orders-page {
     max-width: 900px;
     margin: 4rem auto;
@@ -11,6 +12,7 @@
     text-align: center;
 }
 
+/* ===== Order Card ===== */
 .order-card {
     background: #ffffff;
     border: 1px solid #d9e2ec;
@@ -42,6 +44,7 @@
     margin: 1.8rem 0;
 }
 
+/* ===== Actions ===== */
 .order-button,
 .continue-shopping {
     display: inline-flex;
@@ -78,6 +81,7 @@
     background: #eaf1f8;
 }
 
+/* ===== Messages ===== */
 .order-success {
     background: #d1e7dd;
     border: 1px solid #badbcc;
@@ -109,13 +113,28 @@
     text-align: center;
 }
 
+/* ===== Orders Grid ===== */
 .orders-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 1.6rem;
 }
 
-@media (max-width: 600px) {
+/* ===== Responsive: Tablet ===== */
+@media (max-width: 992px) {
+    .orders-page {
+        max-width: 100%;
+        margin: 3rem auto;
+        padding: 1.8rem;
+    }
+
+    .orders-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+}
+
+/* ===== Responsive: Mobile ===== */
+@media (max-width: 576px) {
     .orders-page {
         margin: 2rem auto;
         padding: 1.2rem;
@@ -133,10 +152,18 @@
         font-size: 2rem;
     }
 
+    .order-card p {
+        font-size: 1.4rem;
+    }
+
     .order-button,
     .continue-shopping {
         width: 100%;
         margin-right: 0;
         margin-top: 1rem;
+    }
+
+    .orders-grid {
+        grid-template-columns: 1fr;
     }
 }

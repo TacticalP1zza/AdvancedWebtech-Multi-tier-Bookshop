@@ -31,7 +31,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
-/* ===== Titles ===== */
+/* ===== Panel Titles ===== */
 .rest-api-panel h2,
 .admin-filter-panel h2 {
     font-size: 1.6rem;
@@ -39,7 +39,7 @@
     margin-bottom: 0.6rem;
 }
 
-/* ===== Small helper text ===== */
+/* ===== Helper Text ===== */
 .panel-tip {
     font-size: 1.2rem;
     color: #6b7280;
@@ -54,7 +54,6 @@
     flex-wrap: wrap;
 }
 
-/* Input matches dropdown */
 .rest-api-form input {
     flex: 1;
     padding: 0.8rem;
@@ -68,7 +67,6 @@
     border-color: #0058A3;
 }
 
-/* Buttons (smaller + cleaner) */
 .rest-api-form button {
     padding: 0.7rem 1.2rem;
     border-radius: 999px;
@@ -101,7 +99,7 @@
     background: #e6c300;
 }
 
-/* ===== Filter ===== */
+/* ===== Filters ===== */
 .admin-filter-row {
     display: flex;
     gap: 0.8rem;
@@ -182,7 +180,7 @@
     color: #0f5132;
 }
 
-/* ===== Button ===== */
+/* ===== Actions ===== */
 .order-button {
     display: inline-block;
     margin-top: 1.5rem;
@@ -199,9 +197,61 @@
     background: #003B73;
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 800px) {
+/* ===== Responsive: Tablet ===== */
+@media (max-width: 992px) {
+    .admin-page {
+        max-width: 100%;
+        margin: 2rem auto;
+        padding: 1.5rem;
+    }
+
     .admin-top-row {
         grid-template-columns: 1fr;
+    }
+
+    .admin-orders-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+}
+
+/* ===== Responsive: Mobile ===== */
+@media (max-width: 576px) {
+    .admin-page {
+        margin: 1.6rem auto;
+        padding: 1.2rem;
+    }
+
+    .admin-page h1 {
+        font-size: 2rem;
+        margin-bottom: 1.6rem;
+    }
+
+    .rest-api-panel,
+    .admin-filter-panel {
+        padding: 1.2rem;
+        min-height: auto;
+    }
+
+    .rest-api-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .rest-api-form input,
+    .rest-api-form button {
+        width: 100%;
+    }
+
+    .admin-filter-row {
+        flex-direction: column;
+    }
+
+    .admin-orders-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .order-button {
+        width: 100%;
+        text-align: center;
     }
 }

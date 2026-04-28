@@ -3,11 +3,9 @@
 require_once __DIR__ . '/DB_Connection.php';
 
 /**
- * CaptchaModel.php
- *
- * Handles getting CAPTCHA images and validateing user Captcha input.
+ * @class CaptchaModel
+ * Handles CAPTCHA retrieval and validation.
  */
-
 class CaptchaModel
 {
     private $connection;
@@ -18,7 +16,7 @@ class CaptchaModel
     }
 
     /**
-     * Get a random CAPTCHA image.
+     * @returns {array|false} CAPTCHA data or false if not found
      */
     public function getRandomCaptcha()
     {
@@ -45,7 +43,9 @@ class CaptchaModel
     }
 
     /**
-     * Check whether the entered CAPTCHA matches the database Answer.
+     * @param int $captchaId
+     * @param string $captchaInput
+     * @returns {bool} True if match, otherwise false
      */
     public function captchaMatches($captchaId, $captchaInput)
     {

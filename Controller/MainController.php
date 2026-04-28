@@ -1,43 +1,44 @@
 <?php
 
 /**
- * MainController.php
  *
- * Purpose:
- * - Provides helper methods.
+ * @class MainController
  *
- * Responsibilities:
- * - Redirect handling
- * - JSON responses
- * - Input validation
- * - Session-based authentication
- * - Administrator access control
+ * @description
+ * Base controller that provides shared helper methods for routing,
+ * JSON responses, input handling, session authentication, and
+ * administrator access control.
  *
- * Practical 7 Note:
- * - Replaces authorise.php using isLoggedIn() and requireLogin()
- * - Replaces secure-admin.php using requireAdmin()
+ * @security
+ * - Starts sessions before accessing session variables.
+ * - Adds common HTTP security headers.
+ * - Validates session ID, IP address, and user agent.
+ *
+ * @practical Practical 7
+ * @note Replaces authorise.php using isLoggedIn() and requireLogin().
+ * @note Replaces secure-admin.php using requireAdmin().
  */
-
 class MainController
 {
+    /**
+     * Starts session and sets security headers.
+     * @returns void
+     */
     public function __construct()
     {
-        // Practical 7: start session before reading or writing session variables.
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
+
         header("X-Content-Type-Options: nosniff");
         header("X-Frame-Options: SAMEORIGIN");
         header("Referrer-Policy: strict-origin-when-cross-origin");
     }
 
     /**
-     * redirectTo
-     *
-     * - Redirects the user to a page based on action variable.
-     *
-     * @param string $action Route action name
-     * @return void
+     * Redirects to a route action.
+     * @param string $action
+     * @returns void
      */
     protected function redirectTo($action)
     {
@@ -46,13 +47,10 @@ class MainController
     }
 
     /**
-     * jsonResponse
-     *
-     * - Sends a structured JSON response.
-     *
-     * @param array $data Response data
-     * @param int $statusCode HTTP response code
-     * @return void
+     * Outputs data as JSON.
+     * @param array $data
+     * @param int $statusCode
+     * @returns void
      */
     protected function jsonResponse($data, $statusCode = 200)
     {
@@ -63,40 +61,23 @@ class MainController
     }
 
     /**
-     * getInput
-     *
-     * - Gets data from $_GET or $_POST.
-     *
-     * Practical 7 / Lecture 14:
-     * - Addresses malformed input attacks where attackers submit arrays
-     *   instead of expected scalar values.
-     *
-     * @param array $source Input source, usually $_GET or $_POST
-     * @param string $key Input key
-     * @return string Sanitised scalar input or empty string
+     * Returns trimmed scalar input.
+     * @param array $source
+     * @param string $key
+     * @returns string
      */
     protected function getInput($source, $key)
     {
         if (!isset($source[$key]) || is_array($source[$key])) {
             return '';
         }
-    
+
         return trim((string) $source[$key]);
     }
 
     /**
-     * isLoggedIn
-     *
-     * - Checks whether the current session has a valid logged-in user.
-     *
-     * Security:
-     * - Confirms login flag is present.
-     * - Confirms stored session ID matches current session ID.
-     *
-     * Practical 7:
-     * - Replaces authorise.php.
-     *
-     * @return bool True if session is authenticated and valid
+     * Returns current login status.
+     * @returns bool
      */
     protected function isLoggedIn()
     {
@@ -111,18 +92,8 @@ class MainController
     }
 
     /**
-     * requireLogin
-     *
-     * Purpose:
-     * - Protects routes that require authentication.
-     *
-     * Security:
-     * - Redirects unauthenticated or invalid sessions to login.
-     *
-     * Practical 7:
-     * - Replaces authorise.php.
-     *
-     * @return void
+     * Redirects unauthenticated users to login.
+     * @returns void
      */
     protected function requireLogin()
     {
@@ -133,19 +104,8 @@ class MainController
     }
 
     /**
-     * requireAdmin
-     *
-     * Purpose:
-     * - Protects routes that require admini privileges.
-     *
-     * Security:
-     * - Calls requireLogin() first.
-     * - Checks admin role after authentication.
-     *
-     * Practical 7
-     * - Replaces secure-admin.php.
-     *
-     * @return void
+     * Redirects non-admin users to shop.
+     * @returns void
      */
     protected function requireAdmin()
     {
@@ -157,12 +117,8 @@ class MainController
     }
 
     /**
-     * blockAdminOrdering
-     *
-     * Purpose:
-     * - Prevents admin users from using customer-only features.
-     *
-     * @return void
+     * Blocks admin users from customer ordering.
+     * @returns void
      */
     protected function blockAdminOrdering()
     {

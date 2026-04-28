@@ -1,3 +1,4 @@
+/* ===== Admin Page Layout ===== */
 .admin-page {
     max-width: 1100px;
     margin: 3rem auto;
@@ -11,12 +12,14 @@
     margin-bottom: 2.5rem;
 }
 
+/* ===== Admin Grid ===== */
 .admin-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 1.6rem;
 }
 
+/* ===== Admin Card ===== */
 .admin-card {
     background: #ffffff;
     border: 1px solid #d9e2ec;
@@ -45,6 +48,7 @@
     line-height: 1.5;
 }
 
+/* ===== Admin Messages ===== */
 .admin-error {
     background: #f8d7da;
     border: 1px solid #f5c2c7;
@@ -54,4 +58,56 @@
     margin-bottom: 2rem;
     font-size: 1.5rem;
     font-weight: 700;
+}
+
+/* ===== Responsive: Tablet ===== */
+@media (max-width: 992px) {
+    .admin-page {
+        max-width: 100%;
+        margin: 2.4rem auto;
+        padding: 1.8rem;
+    }
+
+    .admin-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.4rem;
+    }
+
+    .admin-card {
+        padding: 1.8rem;
+    }
+}
+
+/* ===== Responsive: Mobile ===== */
+@media (max-width: 576px) {
+    .admin-page {
+        margin: 2rem auto;
+        padding: 1.4rem;
+    }
+
+    .admin-page h1 {
+        font-size: 2.4rem;
+        margin-bottom: 2rem;
+    }
+
+    .admin-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+    }
+
+    .admin-card {
+        padding: 1.6rem;
+    }
+
+    .admin-card h2 {
+        font-size: 1.8rem;
+    }
+
+    .admin-card p {
+        font-size: 1.35rem;
+    }
+
+    .admin-error {
+        font-size: 1.4rem;
+    }
 }
