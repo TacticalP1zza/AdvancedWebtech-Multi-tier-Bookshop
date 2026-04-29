@@ -117,7 +117,7 @@ function displayBooks(books) {
 
         const imageSrc = book.image
             ? "Public/Images/" + escapeHtml(book.image)
-            : "Public/Images/book.jpg";
+            : "Public/Images/book.webp";
 
         const altText = title && author
             ? "Book cover for " + title + " by " + author

@@ -106,12 +106,12 @@ class CustomerOrdersModel
                     products.genre,
                     products.category,
                     products.subcategory,
-                    Accounts.user_name,
-                    Accounts.email,
-                    Accounts.phone
+                    accounts.user_name AS userName,
+                    accounts.email,
+                    accounts.phone
                 FROM orders
                 INNER JOIN products ON orders.product_id = products.id
-                INNER JOIN Accounts ON orders.account_id = Accounts.id
+                INNER JOIN accounts ON orders.account_id = accounts.id
                 ORDER BY orders.order_date DESC";
 
         $stmt = $this->connection->prepare($sql);
@@ -146,16 +146,16 @@ class CustomerOrdersModel
                     orders.quantity,
                     orders.price,
                     orders.order_date,
-                    Accounts.user_name,
-                    Accounts.email,
-                    Accounts.phone,
+                    accounts.user_name AS userName,
+                    accounts.email,
+                    accounts.phone,
                     products.title,
                     products.author,
                     products.genre,
                     products.category,
                     products.subcategory
                 FROM orders
-                INNER JOIN Accounts ON orders.account_id = Accounts.id
+                INNER JOIN accounts ON orders.account_id = accounts.id
                 INNER JOIN products ON orders.product_id = products.id
                 WHERE orders.id = ?
                 LIMIT 1";

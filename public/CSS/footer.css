@@ -6,6 +6,7 @@
     border-top: 4px solid var(--idea-yellow);
     padding: 3rem 2rem;
     font-family: var(--font-family);
+    min-height: 220px;
 }
 
 /* ===== Footer Layout ===== */

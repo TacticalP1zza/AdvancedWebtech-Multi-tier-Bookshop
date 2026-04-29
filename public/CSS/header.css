@@ -32,9 +32,17 @@ html {
 }
 
 body {
+    min-height: 100vh;
     font-family: var(--font-family);
     background-color: var(--off-white);
     color: var(--text-dark);
+
+    display: flex;
+    flex-direction: column;
+}
+main {
+    flex: 1;
+    min-height: 700px;
 }
 
 img {

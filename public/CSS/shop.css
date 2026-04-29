@@ -28,6 +28,10 @@
     border-color: #F2C200;
 }
 
+#book-list {
+    min-height: 600px;
+}
+
 /* ===== Book Image ===== */
 .book-image {
     width: 100%;
